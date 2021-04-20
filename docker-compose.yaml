@@ -3,10 +3,12 @@ services:
   db:
     image: mongo
     restart: always
-    command: 
+    command: ""
     volumes: 
       - data-volume:/data/db
     ports: 
       - 27017:27017
+  
 volumes:
   data-volume:
+

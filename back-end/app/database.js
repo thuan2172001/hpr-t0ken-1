@@ -9,7 +9,7 @@ const connect = (mongoUri) => new Promise((resolve, reject) => {
         useCreateIndex: true,
     })
         .then((b) => {
-            // console.log(b);
+            //  console.log(b);
         })
         .catch((err) => {
             if (err) throw err.message;

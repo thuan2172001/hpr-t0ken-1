@@ -1,25 +1,21 @@
 const User = require('../models/user')
 const { getCSVFiles, getContentCSVFiles, cleanField } = require('./scanData');
 const Promise = require('bluebird');
+const { HashPassword } = require('../utils/crypto-utils');
 const generateUser = async () => {
   try {
     const userFile = await getCSVFiles('user');
     const { header, content } = await getContentCSVFiles(userFile[0]);
 
     await Promise.each(content, async (line) => {
+      const data = {}
       const field = cleanField(line.split(','));
-      const username = field[header.indexOf('username')];
-      const email = `${username}@gmail.com`
-      const checkDataExits = await User.findOne({
-        username: email,
-      });
+      await header.forEach(headerName => { data[headerName] = field[header.indexOf(headerName)] })
+
+      const checkDataExits = await User.findOne({ email: data.email });
       if (!checkDataExits) {
-        const user = new User({
-          username: email,
-          publicKey: 'A1UJhC4fXmjQ+UB15BnxZ5ei8rEku0X5U5lbMuxPesvC',
-          encryptedPrivateKey:
-                        'U2FsdGVkX1+hWx8OmeQtx/XXtzeACOo0r+ZuJABbSXFPaHcHwOhD4uowUu4QssA/R7r1cQXNl8WbnFb0yJeG9g==',
-        });
+        data.hashPassword = await HashPassword('temp')
+        const user = new User(data);
         await user.save();
       }
     });

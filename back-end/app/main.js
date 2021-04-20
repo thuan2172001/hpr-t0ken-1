@@ -15,14 +15,15 @@ const { MONGODB_DATABASE, MONGODB_PASS, MONGODB_PORT, MONGODB_URL, MONGODB_USER,
 module.exports = () => {
 
     console.log('Bootstrap starting time', new Date());
-    const urlConnection = `mongodb://${MONGODB_USER}:${MONGODB_PASS}@${MONGODB_URL}:${MONGODB_PORT}/${MONGODB_DATABASE}`;
+    // const urlConnection = `mongodb://${MONGODB_USER}:${MONGODB_PASS}@${MONGODB_URL}:${MONGODB_PORT}/${MONGODB_DATABASE}`;
+    const urlConnection = 'mongodb://localhost:27017/test'
     // const urlConnection = 'mongodb+srv://admin:admin@cluster0.bra3c.mongodb.net/test?retryWrites=true&w=majority'
 
     const dbConnect = () => db
         .connect(urlConnection)
         .then(async (msg) => {
             console.log(msg);
-            console.log('MongoDB Url: ', MONGODB_URL);
+            console.log('MongoDB Url: ', urlConnection);
             return seed().then(() => {
                 console.log('Seed success!');
             }).catch((e) => {
