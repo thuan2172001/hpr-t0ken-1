@@ -82,7 +82,7 @@ export default function LoginPage() {
                 user.loading ? <Loading /> :
                     <Container fluid>
                         <Row className="justify-content-md-center pt-3">
-                            <Col className="login-box" sm={10} lg={4}>
+                            <Col className="login-box" sm={10} md={6} lg={4}>
                                 <Form method="POST" style={{ margin: '10px 0' }}>
                                     <h2 className="login-title"><i className="fa fa-key" aria-hidden="true" /> Sign in</h2>
                                     <Form.Group className="form-group" controlId="formBasicEmail">
