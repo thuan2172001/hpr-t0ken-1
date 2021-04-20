@@ -1,0 +1,12 @@
+module.exports.PORT = 3001
+module.exports.MONGODB_USER = "root"
+module.exports.MONGODB_PASS = "root"
+module.exports.MONGODB_URL = "localhost"
+module.exports.MONGODB_PORT = 22222
+module.exports.MONGODB_DATABASE = "cm"
+module.exports.CHECK_CHANGE_PASSWORD = true
+module.exports.CHECK_REQUEST_SIGNATURE = true
+module.exports.CHECK_AUTH = true
+module.exports.SEED_DATA = true
+module.exports.TOKEN_SECRET = "13ed9bcef8f907a70e4ab7be34a61513deac8537450bba5116015183c736c0f69ad56e733f3c882cf3381e7b66f65d3977923ee79b78a8d92864c1e9edfa3c96"
+// module.exports = {PORT, MONGODB_USER, MONGODB_PASS, MONGODB_URL, MONGODB_PORT, MONGODB_DATABASE}

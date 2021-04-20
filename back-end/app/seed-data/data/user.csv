@@ -1,0 +1,10 @@
+username,publicKey,encryptedPrivateKey,issuerSignature,issuedPublicKey,name,email,birthDay,gender,phone,role,faculty,code,image,file,identifier,status
+student1,,,,,Nguyễn A,student1@gmail.com,1/1/2000,0,123456788,0000001,0000001,0000001,,,,
+student2,,,,,Trần B,student2@gmail.com,1/1/2000,1,123456789,0000001,0000002,0000002,,,,
+student3,,,,,Trịnh C,student3@gmail.com,1/1/2000,0,123456790,0000001,0000003,0000003,,,,
+student4,,,,,Bùi D,student4@gmail.com,1/1/2000,1,123456791,0000001,0000001,0000004,,,,
+coordinator1,,,,,Nguyễn A,coordinator1@gmail.com,1/1/2000,0,123456722,0000002,0000001,0000005,,,,
+coordinator2,,,,,Trần B,coordinator2@gmail.com,1/1/2000,1,123456723,0000002,0000002,0000006,,,,
+coordinator3,,,,,Trịnh C,coordinator3@gmail.com,1/1/2000,0,123452232,0000002,0000003,0000007,,,,
+superadmin,,,,,Bùi D,superadmin@gmail.com,1/1/2000,1,123452222,0000003,0000001,0000008,,,,
+guest,,,,,Guest,guest,1/1/2000,1,19001501,0000004,0000001,0000009,,,,
