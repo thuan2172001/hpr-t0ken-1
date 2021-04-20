@@ -1,4 +1,5 @@
-const { SEED_DATA } = require('../config');
+require("dotenv").config();
+const { SEED_DATA } = process.env;
 const generateUser = require('./user')
 
 const seed = async () => {
