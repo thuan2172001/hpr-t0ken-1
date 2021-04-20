@@ -124,16 +124,8 @@ export default function RegisterPage() {
             user.authenticate ? <Redirect to='/' /> :
                 <Container fluid>
                     <Row className="justify-content-md-center pt-3">
-                        <Col lg={8}>
-                            {
-                                error && show && <Alert style={{ width: '100%' }} onClose={() => setShow(false)} variant="danger" dismissible>
-                                    {error}
-                                </Alert>
-                            }
-                        </Col>
-                        <Col className="form-sign-up" lg={8}>
-                            <h2>Sign up</h2>
-                            <span>Please fill in this form to create an account!</span>
+                        <Col className="form-sign-up register-box" sm={10} lg={4}>
+                            <h2 className="login-title"><i className="fa fa-key" aria-hidden="true" /> Sign up</h2>
                             <hr />
                             <Form method='POST' style={{ margin: '10px 0' }} encType='multipart/form-data'>
                                 <Form.Group className="row">
@@ -202,7 +194,7 @@ export default function RegisterPage() {
                                         required />
                                 </Form.Group>
                                 {/* <div>{image && JSON.stringify(image.name)}</div> */}
-                                <Button variant="primary" onClick={handleSubmit}>
+                                <Button className="btn btn-outline-primary" onClick={handleSubmit}>
                                     Submit
                                 </Button>
                             </Form>

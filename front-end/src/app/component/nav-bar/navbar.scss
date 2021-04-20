@@ -1,5 +1,5 @@
 .custom-nav {
-    background-color: rgb(18, 29, 51);;
+    background-color: rgb(8, 20, 44);;
     margin: auto;
     padding-left:2%;
     padding-right:2%;
@@ -11,6 +11,7 @@
     -webkit-box-align: center;
     align-items: center;
     width: 100%;
+    z-index: 1;
 }
 
 .nav-link-left {

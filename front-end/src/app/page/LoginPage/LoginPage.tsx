@@ -4,6 +4,7 @@ import { login } from '../../actions';
 import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import Loading from '../LoadingPage/Loading';
 import { Redirect, useHistory } from 'react-router-dom';
+import './LoginPage.scss'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -16,10 +17,10 @@ export default function LoginPage() {
 
     const handleEmailBlur = () => {
         if (!email) {
-            setError('Fill the email');
+            setError('Please fill the email');
             setShow(true);
         } else if (email.indexOf('@') === -1) {
-            setError('You must take a email with @ character');
+            setError('You must take an email with @ character');
             setShow(true);
         } else {
             setError('');
@@ -35,7 +36,7 @@ export default function LoginPage() {
 
     const handlePasswordBlur = () => {
         if (!password) {
-            setError('Fill the pasword');
+            setError('Please fill the pasword');
             setShow(true);
         } else if (password.length < 3) {
             setError('Your password must have more or equal 3 characters');
@@ -81,26 +82,12 @@ export default function LoginPage() {
                 user.loading ? <Loading /> :
                     <Container fluid>
                         <Row className="justify-content-md-center pt-3">
-                            <Col lg={8}>
-                                {
-                                    error && show && <Alert style={{ width: '100%' }} onClose={() => setShow(false)} variant="danger" dismissible>
-                                        {error}
-                                    </Alert>
-                                }
-                            </Col>
-                            <Col lg={8}>
-                                {
-                                    user.error && show && <Alert style={{ width: '100%' }} onClose={() => setShow(false)} variant="danger" dismissible>
-                                        {user.error}
-                                    </Alert>
-                                }
-                            </Col>
-                            <Col lg={8}>
+                            <Col className="login-box" sm={10} lg={4}>
                                 <Form method="POST" style={{ margin: '10px 0' }}>
-                                    <h2>Sign in</h2>
-                                    <Form.Group controlId="formBasicEmail">
+                                    <h2 className="login-title"><i className="fa fa-key" aria-hidden="true" /> Sign in</h2>
+                                    <Form.Group className="form-group" controlId="formBasicEmail">
                                         <Form.Label>Email address</Form.Label>
-                                        <Form.Control
+                                        <Form.Control className="form-control"
                                             value={email}
                                             onBlur={handleEmailBlur}
                                             onChange={handleEmailChange}
@@ -111,6 +98,7 @@ export default function LoginPage() {
                                         <Form.Text className="text-muted">
                                             We'll never share your email with anyone else.
                                         </Form.Text>
+                                        {error && <span style={{fontSize:"18px"}} className="text-danger" >{error}</span>}
                                     </Form.Group>
 
                                     <Form.Group controlId="formBasicPassword">
@@ -124,8 +112,9 @@ export default function LoginPage() {
                                             placeholder="Password"
                                             required
                                         />
+                                        {error && <span style={{fontSize:"18px"}} className="text-danger" >{error}</span>}
                                     </Form.Group>
-                                    <Button variant="primary" onClick={handleSubmit}>
+                                    <Button className="btn btn-outline-primary" onClick={handleSubmit}>
                                         Submit
                                     </Button>
                                     <a style={{
