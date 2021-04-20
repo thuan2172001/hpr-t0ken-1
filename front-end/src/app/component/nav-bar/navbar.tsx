@@ -1,8 +1,9 @@
-import {Nav, Navbar, NavbarBrand} from "react-bootstrap";
+import {Dropdown, Nav, Navbar, NavbarBrand} from "react-bootstrap";
 import './navbar.scss'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../actions';
 import { useHistory } from "react-router-dom";
+import avatar from '../../assets/background.jpg';
 
 export const NavBar = () => {
     const user = useSelector((state:RootStateOrAny) => state.user);
@@ -18,19 +19,31 @@ export const NavBar = () => {
         (<>
             <Navbar className="custom-nav navbar-expand-lg body_font fixed-top"
                     expand="lg">
-                <NavbarBrand id="nav-brand" href="/">Blockchain Wallet</NavbarBrand>
+                <NavbarBrand id="nav-brand" href="/"><i style={{fontSize: "28px"}} className="fas fa-dice-d20" /><span className="ml-3">Blockchain Wallet</span></NavbarBrand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="navbarcollapse">
                     <Nav className="ml-auto">
-                        <Nav.Link style={{color: "white"}} href="information" >Information</Nav.Link>
-                        <Nav.Link style={{color: "white"}} onClick={handleLogout} >Log out</Nav.Link>
+                    <div className="nav-item dropdown show">
+                        <Dropdown style={{color: "white"}}>
+                            <Dropdown.Toggle id="dropdown-basic">
+                                <img className="avatar" src={avatar} alt="avatar" /><span className="ml-2">Account</span>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item style={{backgroundColor: "transparent"}} href="/profile">
+                                    <i className="far fa-address-card" /> Profile</Dropdown.Item>
+                                <Dropdown.Item style={{backgroundColor: "transparent"}} href="/setting">
+                                <i className="fas fa-user-cog" /> Setting</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+                        <Nav.Link style={{color: "white"}} onClick={handleLogout} ><i className="fas fa-sign-out-alt" /> Log out</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
         </>) : (<>
             <Navbar className="custom-nav navbar-expand-lg body_font fixed-top"
                     expand="lg">
-                <NavbarBrand id="nav-brand" href="/">Blockchain Wallet</NavbarBrand>
+                <NavbarBrand id="nav-brand" href="/"><i style={{fontSize: "28px"}} className="fas fa-dice-d20" /><span className="ml-3">Blockchain Wallet</span></NavbarBrand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="navbarcollapse">
                     <Nav className="ml-auto">

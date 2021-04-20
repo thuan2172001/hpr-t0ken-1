@@ -75,7 +75,7 @@ export default function LoginPage() {
     return <div
         style={{ 
             backgroundImage: "linear-gradient(to right, #a1c4fd, #c2e9fb)",
-            height: '100vh',
+            height: '95vh',
         }}>
         {
             user.authenticate ? <Redirect to='/' /> :

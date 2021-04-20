@@ -1,5 +1,5 @@
 .custom-nav {
-    background-color: rgb(8, 20, 44);;
+    background-color: rgb(5, 24, 61);;
     margin: auto;
     padding-left:2%;
     padding-right:2%;
@@ -30,7 +30,7 @@
     color: white;
     padding-right: 20px;
     float: left;
-    font-family: "Roboto Thin", serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     font-style: normal;
     font-weight: 600;
     font-size: 22px;
@@ -54,4 +54,10 @@
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
+}
+
+.avatar {
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
 }
