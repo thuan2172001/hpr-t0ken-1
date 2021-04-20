@@ -1,4 +1,5 @@
-var express = require('express')
+require('dotenv').config();
+const express = require('express')
 const app = express();
 const server = require('http').Server(app);
 
@@ -8,7 +9,8 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const db = require('./database')
 const seed = require('./seed-data/seed')
-const { MONGODB_DATABASE, MONGODB_PASS, MONGODB_PORT, MONGODB_URL, MONGODB_USER, PORT } = require('./config');
+
+const { MONGODB_DATABASE, MONGODB_PASS, MONGODB_PORT, MONGODB_URL, MONGODB_USER, PORT } = process.env;
 
 module.exports = () => {
 

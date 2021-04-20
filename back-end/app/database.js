@@ -24,7 +24,7 @@ const connect = (mongoUri) => new Promise((resolve, reject) => {
         resolve('Mongo Database connected');
     });
     Mongoose.connection.on('disconnected', () => {
-        console.log('Mongo Database diconected');
+        console.log('Mongo Database disconected');
         process.exit(0);
     });
     const models = globby.sync('app/models/*.js');
