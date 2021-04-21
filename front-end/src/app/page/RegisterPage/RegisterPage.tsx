@@ -6,28 +6,23 @@ import { Redirect, useHistory } from 'react-router-dom';
 import './RegisterPage.scss';
 
 export default function RegisterPage() {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
+    const [firstName, setfirstName] = useState('');
+    const [lastName, setlastName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [image, setImage] = useState('');
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
     const user = useSelector((state:RootStateOrAny) => state.user);
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const handleImageChange = (e:any) => {
-        console.log(e.target.files[0]);
-        setImage(e.target.files[0])
-    };
-
-    const handleFirstnameBlur = () => {
-        if (!firstname) {
+    const handlefirstNameBlur = () => {
+        if (!firstName) {
             setError("First name must be filled");
             setShow(true);
-        } else if (firstname.length < 3) {
+        } else if (firstName.length < 3) {
             setError("First name must have at least 3 chars length");
             setShow(true);
         } else {
@@ -35,11 +30,11 @@ export default function RegisterPage() {
         }
     }
 
-    const handleLastnameblur = () => {
-        if (!lastname) {
+    const handlelastNameblur = () => {
+        if (!lastName) {
             setError("Last name must be filled");
             setShow(true);
-        } else if (lastname.length < 3) {
+        } else if (lastName.length < 3) {
             setError("Last name must have at least 3 chars length");
             setShow(true);
         } else {
@@ -90,17 +85,25 @@ export default function RegisterPage() {
         }
     }
 
+    const handlePhoneBlur = () => {
+        if (!phone.match(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g) || phone.length < 9) {
+            setError('Phone number is invalid!');
+            setShow(true);
+        } else {
+            setError('');
+        }
+    }
+
     const handleSubmit = () => {
         console.log(error)
-        if (firstname && lastname && email && password && error.length === 0) {
-            const user = {firstname, lastname, email, password}
+        if (firstName && lastName && email && password && phone && error.length === 0) {
+            const user = {firstName, lastName, email, password}
             dispatch(register(user));
-            setFirstname('');
-            setLastname('');
+            setfirstName('');
+            setlastName('');
             setEmail('');
             setPassword('');
             setConfirmPassword('');
-            setImage('');
             history.push('/login');
         } else {
             setShow(true);
@@ -108,9 +111,9 @@ export default function RegisterPage() {
                 setError('Invalid Email');
             } else if (!password) {
                 setError('Invalid Password');
-            } else if (!firstname) {
+            } else if (!firstName) {
                 setError('Invalid First name');
-            } else if (!lastname) {
+            } else if (!lastName) {
                 setError('Invalid Last name');
             }
         }
@@ -132,23 +135,36 @@ export default function RegisterPage() {
                                     <Col>
                                         <Form.Label>First Name</Form.Label>
                                         <Form.Control
-                                            value={firstname}
-                                            name='firstname'
+                                            value={firstName}
+                                            name='firstName'
                                             type="text"
                                             placeholder="First Name"
-                                            onBlur={handleFirstnameBlur}
-                                            onChange={e => setFirstname(e.target.value)}
+                                            onBlur={handlefirstNameBlur}
+                                            onChange={e => setfirstName(e.target.value)}
                                             required />
                                     </Col>
                                     <Col>
                                         <Form.Label>Last Name</Form.Label>
                                         <Form.Control
-                                            value={lastname}
-                                            name='lastname'
+                                            value={lastName}
+                                            name='lastName'
                                             type="text"
                                             placeholder="Last Name"
-                                            onBlur={handleLastnameblur}
-                                            onChange={e => setLastname(e.target.value)}
+                                            onBlur={handlelastNameblur}
+                                            onChange={e => setlastName(e.target.value)}
+                                            required />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group className="row">
+                                    <Col sm={12}>
+                                        <Form.Label>Phone number</Form.Label>
+                                        <Form.Control
+                                            value={phone}
+                                            name='phone'
+                                            type="tel"
+                                            placeholder="Phone number"
+                                            onBlur={handlePhoneBlur}
+                                            onChange={e => setPhone(e.target.value)}
                                             required />
                                     </Col>
                                 </Form.Group>
@@ -184,19 +200,10 @@ export default function RegisterPage() {
                                         onChange={e => setConfirmPassword(e.target.value)}
                                         required />
                                 </Form.Group>
-                                <Form.Group controlId="formBasicPassword">
-                                    <Form.Label>Avatar</Form.Label>
-                                    <Form.Control
-                                        name='image'
-                                        type="file"
-                                        accept='image/*'
-                                        onChange={handleImageChange}
-                                        required />
-                                </Form.Group>
-                                {/* <div>{image && JSON.stringify(image.name)}</div> */}
                                 <Button className="btn btn-outline-primary" onClick={handleSubmit}>
                                     Submit
                                 </Button>
+                                {error && <span style={{fontSize:"18px", position:"absolute", right:"15px"}} className="text-danger" >{error}</span>}
                             </Form>
                         </Col>
                     </Row>

@@ -1,4 +1,5 @@
 const Mongoose = require('mongoose')
+const { createWallet } = require('../utils/wallet')
 const { Schema } = Mongoose
 
 const UserSchema = new Schema(
@@ -12,21 +13,29 @@ const UserSchema = new Schema(
             type: String
         },
         firstName: {
-            type: String
+            type: String,
+            default: () => 'First'
         },
         lastName: {
-            type: String
+            type: String,
+            default: () => 'Last'
         },
         birthday: {
-            type: Date
+            type: Date,
+            default: () => new Date('1/1/1999')
         },
         phone: {
-            type: String
+            type: String,
+            default: () => '038124569625'
+        },
+        gender : {
+            type: Boolean, // false nu, true nam
+            default: () => false
         },
         wallet: {
-            type: String
+            type: String,
+            default: () => createWallet('temp').address
         }
-
         // encryptedPrivateKey: {
         //     type: String
         // },

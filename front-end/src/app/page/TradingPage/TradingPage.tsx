@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import {transferCoin} from '../../actions/users'
 
 type TradingType = {
     amount: number,
     address: string,
-    description: string,
+    privateKey: string,
 }
 
 export const TradingPage = () => {
@@ -16,10 +17,12 @@ export const TradingPage = () => {
     const user = useSelector((state:RootStateOrAny) => state.user);
     const history = useHistory();
     const onSubmit = handleSubmit((data:any) => {
-        alert(JSON.stringify(data))
-        console.log(data)
+            console.log('a')
+            transferCoin(data).then(t => {
+                console.log(t);
+            });
     });
-    console.log(user);
+
     useEffect(() => {
         if (!user.authenticate) history.push('/login')
     });
@@ -71,18 +74,18 @@ export const TradingPage = () => {
                         <div className="row form-element">
                             <label className="form-label col-12">
                                 <div className="form-element-title">
-                                    <span>Desciption</span>
+                                    <span>Private Key</span>
                                 </div>
                             </label>
-                            <textarea id="description"
-                                {...register("description", {
+                            <textarea id="privateKey"
+                                {...register("privateKey", {
                                     required: "Required",
                                     validate: value => value !== ""
-                                })} name="description" placeholder="What's this transaction for? (optional)" 
+                                })} name="privateKey" placeholder="What's this transaction for? (optional)" 
                                 rows={5} maxLength={100} className="form-control form-group col-12  input-custom"
                             />
                             <span className = "text-danger mr-5 col-12 ">
-                                {errors.description && 'description must not empty'}
+                                {errors.privateKey && 'privateKey must not empty'}
                             </span>
                         </div>
                         <div className="row col-12 btn-controller">
