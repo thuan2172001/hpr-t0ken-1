@@ -79,12 +79,37 @@ export const isUserLoggedIn = () => {
     }
 }
 
-export const logout = () => {
+export const logout = () => { 
     return async dispatch => {
         dispatch({ type: userContants.USER_LOG_OUT_REQUEST });
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         dispatch({ type: userContants.USER_LOG_OUT_SUCCESS });
+    }
+}
+
+export const updateProfile = (user) => {
+    return async dispatch => {
+        dispatch({ type: userContants.USER_UPDATE_PROFILE_REQUEST });
+        try {
+            const res = await axios.post('/user/:userId', user);
+            console.log(res.data);
+            if (res.status === 200) {
+                const { user } = res.data;
+                localStorage.setItem('user', JSON.stringify(user));
+                dispatch({
+                    type: userContants.USER_UPDATE_PROFILE_SUCCESS,
+                    payload: { user }
+                })
+            } else {
+                dispatch({
+                    type: userContants.USER_UPDATE_PROFILE_FAILURE,
+                    payload: { error: res.data.errors }
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

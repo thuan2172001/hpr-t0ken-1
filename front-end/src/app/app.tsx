@@ -6,6 +6,7 @@ import LoginPage from './page/LoginPage/LoginPage';
 import {NavBar} from './component/nav-bar/navbar'
 import { isUserLoggedIn } from './actions';
 import RegisterPage from './page/RegisterPage/RegisterPage';
+import ProfilePage from './page/ProfilePage/ProfilePage';
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
           <Route path='/' exact component={TradingPage} />
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
+          <Route path='/profile' component={ProfilePage} />
+          <Route path='/setting' component={ProfilePage} />
         </Switch>
       </Router>
     </div>
