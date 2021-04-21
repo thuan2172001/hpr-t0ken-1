@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { login } from '../../actions';
-import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import Loading from '../LoadingPage/Loading';
 import { Redirect, useHistory } from 'react-router-dom';
 import './LoginPage.scss'
@@ -9,7 +9,6 @@ import './LoginPage.scss'
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [show, setShow] = useState(true);
     const [error, setError] = useState('');
     const user = useSelector((state:RootStateOrAny) => state.user);
     const dispatch = useDispatch();
@@ -18,10 +17,8 @@ export default function LoginPage() {
     const handleEmailBlur = () => {
         if (!email) {
             setError('Please fill the email');
-            setShow(true);
         } else if (email.indexOf('@') === -1) {
             setError('You must take an email with @ character');
-            setShow(true);
         } else {
             setError('');
         }
@@ -37,10 +34,8 @@ export default function LoginPage() {
     const handlePasswordBlur = () => {
         if (!password) {
             setError('Please fill the pasword');
-            setShow(true);
         } else if (password.length < 3) {
             setError('Your password must have more or equal 3 characters');
-            setShow(true);
         }
     }
 
@@ -53,8 +48,7 @@ export default function LoginPage() {
 
     const handleSubmit = () => {
         if (email && password && error.length === 0) {
-            const username = email;
-            dispatch(login({ username, password }));
+            dispatch(login({ email, password }));
             console.log(user)
             if (!user.error) {
                 setEmail('');
@@ -63,7 +57,6 @@ export default function LoginPage() {
                 history.push('/');
             }
         } else {
-            setShow(true);
             if (!email) {
                 setError('Invalid Email');
             } else if (!password) {
