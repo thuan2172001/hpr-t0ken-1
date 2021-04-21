@@ -1,79 +1,88 @@
 import React, { useState, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
-import avatar from '../../assets/logo.svg';
-import { updateProfile } from '../../actions';
+import avatar from '../../assets/avatar.png';
+import { getProfile, updateProfile } from '../../actions';
 import Loading from '../LoadingPage/Loading';
+import './ProfilePage.scss'
 
 export default function ProfilePage() {
     const user = useSelector((state:RootStateOrAny) => state.user);
-    const [showPassword, setShowPassword] = useState(false);
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
+    const [firstName, setfirstName] = useState('');
+    const [lastName, setlastName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [wallet, setWallet] = useState('');
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         console.log(user)
-        setName(`${user.user.firstname} ${user.user.lastname}`);
+        const res = dispatch(getProfile(user.user._id))
+        console.log(res)
+        console.log(user)
+        setfirstName(user.user.firstName);
+        setlastName(user.user.lastName);
         setEmail(user.user.email);
-        setPassword(user.user.password);
-    }, [user.user]);
+        setPhone(user.user.phone);
+        setWallet(user.user.wallet);
+    }, [user]);
 
     const reset = () => {
-        setName(`${user.user.firstname} ${user.user.lastname}`);
+        setfirstName(user.user.firstName);
+        setlastName(user.user.lastName);
+        setPhone(user.user.phone);
         setEmail(user.user.email);
-        setPassword(user.user.password);
-        setShowPassword(false);
+        setPhone(user.user.phone);
+        setWallet(user.user.wallet);
         setError('');
     }
 
     const update = () => {
-        if (name.trim().indexOf(' ') < 0) {
+        if (!firstName) {
+            setError('You need provide first name');
+            setShow(true);
+            return;
+        }
+        if (!lastName) {
             setError('You need provide last name');
             setShow(true);
             return;
         }
-        if (email.indexOf('@') < 0) {
-            setError('Invalid Email');
+        if (!phone.match(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g) || phone.length < 9) {
+            setError('Invalid phone number');
             setShow(true);
             return;
         }
-        if (password.length < 6) {
-            setError('Your password must have at least 6 chars');
-            setShow(true);
-            return;
-        }
-        if (name.trim().indexOf(' ') > 0 && email.indexOf('@') > 0 && password.length >= 6) {
+        if (firstName && lastName) {
             setError('');
         }
         if (!error) {
             if (
-                name.trim() === `${user.user.firstname} ${user.user.lastname}` &&
-                email === user.user.email &&
-                password === user.user.password
+                firstName === user.user.firstName &&
+                lastName === user.user.lastName &&
+                phone === user.user.phone
             ) {
-                setError('No thing change');
+                setError('Nothing change');
                 setShow(true);
             } else {
-                const form = new FormData();
-                form.append('name', name.trim());
-                form.append('email', email.trim());
-                form.append('password', password);
-                form.append('_id', user.user._id);
-                setShowPassword(false);
+                console.log(user)
+                const userInfo = {...user.user, firstName, lastName, phone}
+                const newUser = {...user, user: userInfo}
+                console.log(newUser)
                 setError('');
                 setShow(false);
-                dispatch(updateProfile(form));
+                dispatch(updateProfile(newUser));
+                console.log(user)
+                alert('Change successfully!')
             }
         }
     }
 
     return (
-        <Container fluid>
-            <Row className="justify-content-md-center mt-5">
+        <Container fluid className="pt-5">
+            <Row className="justify-content-md-center">
                 <Col lg={8}>
                     {
                         error && show && <Alert style={{ width: '100%' }} onClose={() => setShow(false)} variant="danger" dismissible>
@@ -81,46 +90,65 @@ export default function ProfilePage() {
                         </Alert>
                     }
                 </Col>
-                <Col lg={11}>
+                <Col lg={8}>
+                    <h2 style={{textAlign: "center"}}>User's information</h2>
                     {
                         user.loading ? <Loading /> :
                             <Row>
-                                <Col sm={5}>
+                                <Col sm={2}>
                                     <div className='user-avt-container'>
                                         {
-                                            <img className='user-avatar' src={avatar} alt='Avatar' />
+                                            <img width="100%" height="auto" className='user-avatar' src={avatar} alt='Avatar' />
                                         }
                                     </div>
                                 </Col>
-                                <Col sm={7}>
+                                <Col sm={10}>
                                     <Form method="POST" style={{ margin: '10px 0' }}>
-                                        <Form.Group controlId="formBasicName">
-                                            <Form.Label>Full name</Form.Label>
+                                        <Form.Group className="row">
+                                            <Col>
+                                                <Form.Label>First Name</Form.Label>
+                                                <Form.Control
+                                                    value={firstName}
+                                                    name='firstName'
+                                                    type="text"
+                                                    onChange={e => setfirstName(e.target.value)}
+                                                    />
+                                            </Col>
+                                            <Col>
+                                                <Form.Label>Last Name</Form.Label>
+                                                <Form.Control
+                                                    value={lastName}
+                                                    name='lastName'
+                                                    type="text"
+                                                    onChange={e => setlastName(e.target.value)}
+                                                    />
+                                            </Col>
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicPhone">
+                                            <Form.Label>Phone Number</Form.Label>
                                             <Form.Control
-                                                value={name}
-                                                onChange={e => setName(e.target.value)}
-                                                type="text" />
+                                                value={phone}
+                                                onChange={e => setPhone(e.target.value)}
+                                                type="phone" />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Label>Email</Form.Label>
                                             <Form.Control
                                                 value={email}
-                                                onChange={e => setEmail(e.target.value)}
+                                                disabled={true}
                                                 type="email" />
                                         </Form.Group>
-                                        <Form.Group controlId="formBasicPassword">
-                                            <Form.Label>Password <i className="fas fa-eye" onClick={() => setShowPassword(showPassword => !showPassword)}></i>
-                                            </Form.Label>
+                                        <Form.Group controlId="formBasicWallet">
+                                            <Form.Label>Wallet's Address</Form.Label>
                                             <Form.Control
-                                                value={showPassword ? password :
-                                                    password && password.split('').map(char => '*').join('')}
-                                                onChange={e => setPassword(e.target.value)}
+                                                value={wallet}
+                                                disabled={true}
                                                 type="text" />
                                         </Form.Group>
                                     </Form>
                                     <div className='user-button-list'>
-                                        <Button variant="primary" onClick={update}>Save</Button>
-                                        <Button variant="danger" onClick={reset}>Cancel</Button>{' '}
+                                        <Button className="mr-3" variant="success" onClick={update}>Save</Button>
+                                        <Button className="mr-3" variant="danger" onClick={reset}>Cancel</Button>{' '}
                                     </div>
                                 </Col>
                             </Row>

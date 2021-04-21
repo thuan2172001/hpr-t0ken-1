@@ -30,6 +30,14 @@ const EncryptUsingSymmetricKey = (symmetricKey, message) => {
 
   return encryptedMessage;
 };
+const DecryptUsingSymmetricKey = (symmetricKey, encrypted) => {
+  const message = CryptoJs.AES.decrypt(
+    encrypted,
+    symmetricKey,
+  ).toString();
+
+  return message;
+};
 
 function ConvertBase64ToBuffer(text) {
   return Buffer.from(text, 'base64');
@@ -122,5 +130,6 @@ module.exports = {
   generateRandomId,
   ComparePassword,
   HashPassword,
-  Hash256
+  Hash256,
+  DecryptUsingSymmetricKey
 };

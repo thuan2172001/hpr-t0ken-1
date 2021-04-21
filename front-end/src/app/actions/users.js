@@ -1,5 +1,6 @@
 import { userContants } from './contants';
 import axios from './axios';
+import { api } from './config';
 
 export const register = (user) => {
     console.log(user)
@@ -89,14 +90,18 @@ export const logout = () => {
 }
 
 export const updateProfile = (user) => {
+    console.log(user)
     return async dispatch => {
         dispatch({ type: userContants.USER_UPDATE_PROFILE_REQUEST });
         try {
-            const res = await axios.post('/user/:userId', user);
+            const res = await axios.put(`api/user/${user.user._id}`, user);
             console.log(res.data);
             if (res.status === 200) {
-                const { user } = res.data;
-                localStorage.setItem('user', JSON.stringify(user));
+                const user = res.data
+                console.log(user)
+                localStorage.setItem('user', JSON.stringify(user))
+                const recentUser = localStorage.getItem('user')
+                console.log(recentUser)
                 dispatch({
                     type: userContants.USER_UPDATE_PROFILE_SUCCESS,
                     payload: { user }
@@ -113,3 +118,45 @@ export const updateProfile = (user) => {
     }
 }
 
+export const getProfile = (_id) => {
+    console.log(_id)
+    return async dispatch => {
+        dispatch({ type: userContants.USER_GET_PROFILE_REQUEST });
+        try {
+            const res = await axios.get(`api/user`);
+            console.log(res.data);
+            if (res.status === 200) {
+                const { user } = res.data;
+                dispatch({
+                    type: userContants.USER_GET_PROFILE_SUCCESS,
+                    payload: { user }
+                })
+            } else {
+                dispatch({
+                    type: userContants.USER_GET_PROFILE_FAILURE,
+                    payload: { error: res.data.errors }
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const transferCoin = (props) => {
+    console.log(props)
+    const t = new Promise((resol, rej) =>{
+        const info = {addressTo:props.address, privateKey:props.privateKey, amount:props.amount}
+        console.log(info)
+        axios.post(`${api}/api/transfer`, info).then((res) =>{
+            if (res.status === 200) {
+                resol( res.data)
+            } else {
+                rej( res.data.errors) 
+            }
+        }).catch(err =>{
+            rej( err) 
+        });
+    })
+    return t;
+}

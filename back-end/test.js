@@ -12,11 +12,14 @@ const options = {
 // console.log(options);
 const provider = new ethers.providers.InfuraProvider('rinkeby', options)
 
-// const abi = JSON.parse(fs.readFileSync('abi.json'))
 
-// const contract = new ethers.Contract(address, abi.abi, provider)
+
+const abi = JSON.parse(fs.readFileSync('abi.json'))
 const wallet = ethers.Wallet.createRandom().connect(provider)
-console.log(wallet)
+const contract = new ethers.Contract(address, abi.abi, wallet)
+contract.transfer(wallet.address, 123).then(t => {console.log(t)});
+// console.log(contract.interface)
+// console.log(wallet)
 
 //  provider.getBlockNumber().then(t =>{
 //     console.log(t )

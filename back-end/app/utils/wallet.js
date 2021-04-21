@@ -11,7 +11,7 @@ const { create } = require('../models/user')
 
 // const contract = new ethers.Contract(address, abi.abi, provider)
 
-const createWallet = async (password) => {
+const createWallet = (password) => {
     const projectId = INFURA_ID
     const address = CONTRACT_ADDRESS
     const projectSecret = INFURA_SECRET
