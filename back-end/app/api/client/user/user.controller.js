@@ -15,15 +15,12 @@ api.post('/user', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     try {
         const { email, password } = req.body
-        const username = email
-        console.log(req)
-
-        const user = await User.findOne({ username })
-        if (user) return res.json(badRequest("USER.POST.USERNAME_CREATED"))
+        const user = await User.findOne({ email })
+        if (user) return res.json(badRequest("USER.POST.EMAIL_CREATED"))
         bcrypt.hash(password, salt, async (err, encrypted) => {
             if (err) return res.json(badRequest(err.message))
 
-            const new_user = new User({ username, hashPassword: encrypted })
+            const new_user = new User({ email, hashPassword: encrypted })
             const info = await new_user.save()
             res.json(info)
         })
@@ -36,8 +33,9 @@ api.post('/user', async (req, res) => {
 api.get('/user', CheckAccessToken, async (req, res) => {
     try {
         const { userInfo } = req
-        const user = await User.findOne({ username: userInfo })
-        if (!user) throw new Error('USER.GET.USERNAME_NOT_FOUND')
+        console.log(userInfo)
+        const user = await User.findOne({ email: userInfo })
+        if (!user) throw new Error('USER.GET.EMAIL_NOT_FOUND')
         res.json(user)
     } catch (err) {
         console.log(err)
@@ -51,7 +49,7 @@ api.put('/user/:userId', CheckAccessToken, async (req, res) => {
         const { userId } = req.params
         const user = await User.findOne({ _id: userId })
 
-        if (!user || user.username != userInfo) throw new Error('USER.PUT.BAD_REQUEST')
+        if (!user || user.email != userInfo) throw new Error('USER.PUT.BAD_REQUEST')
 
         const args = req.body
         const { password, old_password } = args

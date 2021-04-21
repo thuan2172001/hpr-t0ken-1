@@ -1,6 +1,5 @@
 var User = require("../../../models/user");
-// const { CHECK_CHANGE_PASSWORD, CHECK_REQUEST_SIGNATURE, CHECK_AUTH, TOKEN_SECRET } = require("../../../config");
-
+const {TOKEN_SECRET} = process.env
 // const { unauthorized } = require("../../../utils/response-utils");
 // const { VerifyMessage } = require("../../../utils/crypto-utils");
 // const { access } = require("fs-extra");
@@ -154,16 +153,14 @@ const jwt = require("jsonwebtoken");
 
 const CheckAccessToken = async (req, res, next) => {
     try {
-        const access_token = req.headers['x-access-token'].split(' ')[1]
-        console.log(access_token)
-        if (!access_token || access_token === '') throw new Error('AUTH.MISSING_ACCESS_TOKEN')
+        const auth = req.headers.authorization.split(' ')[1]
+        console.log(auth)
+        if (!auth || auth === '') throw new Error('AUTH.MISSING_ACCESS_TOKEN')
 
-        jwt.verify(access_token, TOKEN_SECRET, (err, data) => {
+        jwt.verify(auth, TOKEN_SECRET, (err, data) => {
             if (err) throw new Error(err)
-
-            req.userInfo = data.username
-            next()
-            return;
+            req.userInfo = data.email
+            return next()
         })
     } catch (err) {
         console.log(err)

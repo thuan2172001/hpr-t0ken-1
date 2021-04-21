@@ -97,8 +97,8 @@ const bcrypt = require('bcrypt')
 //     return user
 // }
 
-const generateAccessToken = (username) => {
-    return jwt.sign({ username }, TOKEN_SECRET, { expiresIn: '1800s' });
+const generateAccessToken = (email) => {
+    return jwt.sign({ email }, TOKEN_SECRET, { expiresIn: '1800s' });
 }
 
 // const _update = async (args) => {
