@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt')
 const User = require("../../../models/user");
 const { ComparePassword, HashPassword } = require("../../../utils/crypto-utils");
 const { badRequest } = require("../../../utils/response-utils");
+const { createWallet, createWalletFromPrivateKey } = require("../../../utils/wallet");
 
 const api = require('express').Router()
 
@@ -14,13 +15,20 @@ const api = require('express').Router()
 api.post('/user', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     try {
-        const { email, password } = req.body
-        const user = await User.findOne({ email })
+        const args = req.body
+        const user = await User.findOne({ email: args.email })
         if (user) return res.json(badRequest("USER.POST.EMAIL_CREATED"))
-        bcrypt.hash(password, salt, async (err, encrypted) => {
+        bcrypt.hash(args.password, salt, async (err, encrypted) => {
             if (err) return res.json(badRequest(err.message))
-
-            const new_user = new User({ email, hashPassword: encrypted })
+            args.hashPassword = encrypted
+            if (!args.wallet || args.wallet === '') {
+                const wallet = await createWallet('temp')
+                args.wallet = wallet.address
+            } else {
+                const wallet = await createWalletFromPrivateKey(args.privatekey, 'temp')
+                args.wallet = wallet.address
+            }
+            const new_user = new User(args)
             const info = await new_user.save()
             res.json(info)
         })
