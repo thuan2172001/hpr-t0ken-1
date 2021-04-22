@@ -160,3 +160,20 @@ export const transferCoin = (props) => {
     })
     return t;
 }
+
+export const getWallet = () => {
+    const t = new Promise((resol, rej) =>{
+        console.log("in here")
+        axios.get(`${api}/api/transfer/balance`).then((res) => { 
+            console.log(res)
+            if (res.status === 200) {
+                resol(res.data)
+            } else {
+                rej( res.data.errors) 
+            }
+        }).catch(err =>{
+            rej( err) 
+        });
+    })
+    return t;
+}

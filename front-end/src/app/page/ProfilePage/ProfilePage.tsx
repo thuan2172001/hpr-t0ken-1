@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import avatar from '../../assets/avatar.png';
-import { getProfile, updateProfile } from '../../actions';
+import { getProfile, updateProfile, getWallet } from '../../actions';
 import Loading from '../LoadingPage/Loading';
 import './ProfilePage.scss'
 
@@ -15,6 +15,7 @@ export default function ProfilePage() {
     const [wallet, setWallet] = useState('');
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
+    const [balance, setBalance] = useState('');
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -22,6 +23,10 @@ export default function ProfilePage() {
         const res = dispatch(getProfile(user.user._id))
         console.log(res)
         console.log(user)
+        getWallet().then(t => {
+            console.log(t)
+            setBalance(t);
+        });
         setfirstName(user.user.firstName);
         setlastName(user.user.lastName);
         setEmail(user.user.email);
@@ -142,6 +147,13 @@ export default function ProfilePage() {
                                             <Form.Label>Wallet's Address</Form.Label>
                                             <Form.Control
                                                 value={wallet}
+                                                disabled={true}
+                                                type="text" />
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicWallet">
+                                            <Form.Label>Wallet's Balance</Form.Label>
+                                            <Form.Control
+                                                value={balance}
                                                 disabled={true}
                                                 type="text" />
                                         </Form.Group>

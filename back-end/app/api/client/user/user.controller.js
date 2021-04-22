@@ -1,11 +1,13 @@
 
-
+// const { CommonError } = require("../../../utils/error");
+// const { success } = require("../../../utils/response-utils");
 const { CheckAccessToken } = require("../../middleware/auth/auth.mid");
 const bcrypt = require('bcrypt')
+// const { update, removeById, getUserById, _update } = require("./user.service");
 const User = require("../../../models/user");
 const { ComparePassword, HashPassword } = require("../../../utils/crypto-utils");
 const { badRequest } = require("../../../utils/response-utils");
-const { createWalletFromPrivateKey } = require("../../../utils/wallet");
+const { createWallet, createWalletFromPrivateKey } = require("../../../utils/wallet");
 
 const api = require('express').Router()
 
@@ -19,10 +21,7 @@ api.post('/user', async (req, res) => {
         bcrypt.hash(args.password, salt, async (err, encrypted) => {
             if (err) return res.json(badRequest(err.message))
             args.hashPassword = encrypted
-            if (args.privateKey) {
-                const wallet = await createWalletFromPrivateKey(args.privateKey, 'temp')
-                args.wallet = wallet.address
-            }
+            args.wallet = createWallet('temp').address
             const new_user = new User(args)
             const info = await new_user.save()
             res.json(info)
@@ -36,6 +35,7 @@ api.post('/user', async (req, res) => {
 api.get('/user', CheckAccessToken, async (req, res) => {
     try {
         const { userInfo } = req
+        console.log(userInfo)
         const user = await User.findOne({ email: userInfo })
         if (!user) throw new Error('USER.GET.EMAIL_NOT_FOUND')
         res.json(user)

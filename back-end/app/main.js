@@ -34,7 +34,6 @@ module.exports = () => {
             console.log('ERROR DATABASE', err);
             throw err;
         })
-
     const initApi = () => {
         app.use(cors())
         app.use(bodyParser.json({ limit: '50mb' }))
