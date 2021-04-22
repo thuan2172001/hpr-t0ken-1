@@ -1,10 +1,7 @@
-const CryptoJS = require('crypto-js')
 const { INFURA_ID, CONTRACT_ADDRESS, INFURA_SECRET } = process.env
-const hash256 = require('hash.js')
 const { ethers } = require('ethers')
 const fs = require('fs')
-const { EncryptUsingSymmetricKey, Hash256 } = require('./crypto-utils')
-const { create } = require('../models/user')
+const { EncryptUsingSymmetricKey} = require('./crypto-utils')
 
 
 const PROVIDER = new ethers.providers.InfuraProvider('rinkeby', {
@@ -59,8 +56,8 @@ const getBalance = async (address) => {
 
 const transferMoney = async (privateKey, transferTo, amount = 1) => {
     const contract = createContract(privateKey)
-
-    const isSuccess = await contract.transfer(transferTo, amount)
+    const options = { gasPrice: 1000000000, gasLimit: 85000}
+    const isSuccess = await contract.transfer(transferTo, amount, options)
     return isSuccess 
 }
 

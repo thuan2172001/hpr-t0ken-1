@@ -5,6 +5,7 @@ const { HashPassword, Hash256 } = require('../utils/crypto-utils');
 const { createWallet } = require('../utils/wallet');
 const generateUser = async () => {
   try {
+    // await User.remove({})
     const userFile = await getCSVFiles('user');
     const { header, content } = await getContentCSVFiles(userFile[0]);
 
