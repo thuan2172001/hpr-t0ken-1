@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { api } from './config';
+const {REACT_APP_API_HOST} = process.env; 
 const token = localStorage.getItem('token');
 
 const myaxios = axios.create({
-    baseURL: api,
+    baseURL: REACT_APP_API_HOST,
     headers: {
         'Authorization': token ? `Bearer ${token}` : ''
-    }
+    },
+    timeout: 60000
 })
 
 export default myaxios;

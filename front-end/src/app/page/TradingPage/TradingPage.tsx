@@ -9,7 +9,7 @@ import {transferCoin} from '../../actions/users'
 type TradingType = {
     amount: number,
     address: string,
-    privateKey: string,
+    privateKeyPassword: string,
 }
 
 export const TradingPage = () => {
@@ -48,7 +48,7 @@ export const TradingPage = () => {
                                 })}
                                 className="input100 form-control form-group col-12  input-custom" type="number" 
                                 id="amount" name="amount"
-                                placeholder="$0.00" height="48px" data-lpignore="true" spellCheck="true"
+                                placeholder="HPR 0.00" height="48px" data-lpignore="true" spellCheck="true"
                             />
                             <span className="focus-input100"></span>
                             <span className = "text-danger mr-5 col-12 ">
@@ -76,19 +76,19 @@ export const TradingPage = () => {
                         <div className="row form-element">
                             <label className="form-label col-12">
                                 <div className="form-element-title">
-                                    <span>Private Key</span>
+                                    <span>Private Key Password</span>
                                 </div>
                             </label>
-                            <textarea id="privateKey"
-                                {...register("privateKey", {
+                            <input {...register("privateKeyPassword", {
                                     required: "Required",
                                     validate: value => value !== ""
-                                })} name="privateKey"
-                                rows={3} maxLength={100} className="input100 form-control form-group col-12  input-custom"
+                                })} id="privateKeyPassword" name="privateKeyPassword"
+                                className="input100 form-control form-group col-12  input-custom" 
+                                type="password"
                             />
                             <span className="focus-input100"></span>
                             <span className = "text-danger mr-5 col-12 ">
-                                {errors.privateKey && 'privateKey must not empty'}
+                                {errors.privateKeyPassword && 'privateKeyPassword must not empty'}
                             </span>
                         </div>
                         <div className="row col-12 btn-controller">

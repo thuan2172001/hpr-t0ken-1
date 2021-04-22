@@ -1,5 +1,5 @@
 const { INFURA_ID, CONTRACT_ADDRESS, INFURA_SECRET } = process.env
-const { ethers } = require('ethers')
+const { ethers, BigNumber } = require('ethers')
 const fs = require('fs')
 const { EncryptUsingSymmetricKey} = require('./crypto-utils')
 
@@ -49,25 +49,29 @@ const getBalance = async (address) => {
     const wallet = createWallet('temp')
     const contract = createContract(wallet.privateKey)
     
-    const result = await contract.balanceOf(address)
-    const balance = parseInt(result._hex, 16);
-    return balance
+    const balance = await contract.balanceOf(address)
+    return BigNumber.from(balance).div(BigNumber.from("1000000000000000000")).toString()
 }
 
 const transferMoney = async (privateKey, transferTo, amount = 1) => {
     const contract = createContract(privateKey)
-    const options = { gasPrice: 1000000000, gasLimit: 85000}
-    const isSuccess = await contract.transfer(transferTo, amount, options)
+    const isSuccess = await contract.transfer(transferTo, BigNumber.from(amount).mul(BigNumber.from("1000000000000000000")))
     return isSuccess 
 }
 
-const mintMoney = async (privateKey, amount=10) => {
+const mintMoney = async (privateKey, amount=1) => {
     const contract = createContract(privateKey)
-    const options = { gasPrice: 1000000000, gasLimit: 85000}
-    const isSuccess = await contract.mint(amount, options)
+    const isSuccess = await contract.mint(BigNumber.from(amount).mul(BigNumber.from("1000000000000000000")))
     return isSuccess
 }
+
+const getETHBalance = async (privateKey) => {
+    const wallet = new ethers.Wallet(privateKey).connect(PROVIDER)
+    const balance = await wallet.getBalance()
+    return BigNumber.from(balance).div(BigNumber.from("1000000000000000000")).toString()
+}
+
 module.exports = {
     createWallet, createWalletFromPrivateKey, createWalletFromMnemonic,
-    getBalance, transferMoney, mintMoney,
+    getBalance, transferMoney, mintMoney, getETHBalance
 }
