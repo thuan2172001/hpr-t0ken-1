@@ -22,20 +22,22 @@ const UserSchema = new Schema(
         },
         birthday: {
             type: Date,
-            default: () => new Date('1/1/1999')
+            default: () => '15/2/2000'
         },
         phone: {
             type: String,
-            default: () => '038124569625'
-        },
-        gender : {
-            type: Boolean, // false nu, true nam
-            default: () => false
+            default: () => '0384511222'
+
         },
         wallet: {
             type: String,
-            default: () => createWallet('temp').address
+            default: () => createWallet('temp')
+        },
+        gender: {
+            type: Boolean,
+            default: () => false
         }
+
         // encryptedPrivateKey: {
         //     type: String
         // },

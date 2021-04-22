@@ -10,20 +10,26 @@ const options = {
     projectSecret
 };
 // console.log(options);
+
+const PROVIDER = new ethers.providers.InfuraProvider('rinkeby', {
+    projectId : INFURA_ID,
+    projectSecret : INFURA_SECRET
+})
+const ABI = JSON.parse(fs.readFileSync('abi.json'))
+
 const provider = new ethers.providers.InfuraProvider('rinkeby', options)
 
+// const abi = JSON.parse(fs.readFileSync('abi.json'))
 
-
-const abi = JSON.parse(fs.readFileSync('abi.json'))
+// const contract = new ethers.Contract(address, abi.abi, provider)
 const wallet = ethers.Wallet.createRandom().connect(provider)
-const contract = new ethers.Contract(address, abi.abi, wallet)
-contract.transfer(wallet.address, 123).then(t => {console.log(t)});
-// console.log(contract.interface)
+
+c
 // console.log(wallet)
 
-//  provider.getBlockNumber().then(t =>{
-//     console.log(t )
-//  });
+ provider.getBlockNumber().then(t =>{
+    console.log(t )
+ });
 
 
 
