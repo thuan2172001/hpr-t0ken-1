@@ -25,7 +25,7 @@ export default function ProfilePage() {
         console.log(user)
         getWallet().then(t => {
             console.log(t)
-            setBalance(t);
+            setBalance(`${t.balance} HPR`);
         });
         setfirstName(user.user.firstName);
         setlastName(user.user.lastName);

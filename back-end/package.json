@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "nodemon --exec node ./app/index.js"
+    "start": "nodemon --exec node ./index.js"
   },
   "author": "Vu",
   "license": "ISC",

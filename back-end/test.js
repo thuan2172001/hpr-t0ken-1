@@ -1,40 +1,31 @@
 const { ethers } = require('ethers')
 const fs = require('fs')
-// const network = 'https://rinkeby.infura.io/v3/c2dc5f016978440a9b7233c5b8d0a4c5'
-const projectId = 'c2dc5f016978440a9b7233c5b8d0a4c5'
-const address = '0x0E556F5258130E5C8649aB0c2cA3F523aF8776F2'
-const projectSecret = '1ae34e1ff5a140829dafbfbbc0be116c'
-// const provider = new ethers.providers.InfuraProvider(network, projectId)
-const options = {
-    projectId,
-    projectSecret
-};
-// console.log(options);
+const { DecryptUsingSymmetricKey } = require('./app/utils/crypto-utils')
 
-const PROVIDER = new ethers.providers.InfuraProvider('rinkeby', {
-    projectId : INFURA_ID,
-    projectSecret : INFURA_SECRET
-})
-const ABI = JSON.parse(fs.readFileSync('abi.json'))
+require('dotenv').config()
+
+const { INFURA_ID, CONTRACT_ADDRESS, INFURA_SECRET, MNEMONIC } = process.env
+const options = {
+  INFURA_ID,
+  INFURA_SECRET,
+}
 
 const provider = new ethers.providers.InfuraProvider('rinkeby', options)
+const abi = JSON.parse(fs.readFileSync('abi.json'))
 
-// const abi = JSON.parse(fs.readFileSync('abi.json'))
+const adminWallet = new ethers.Wallet("0xaa30e816d1dfb91e70b259711f39a63b310a0e10a47e11b0e1f900c7e20a7ab6").connect(provider)
+const wallet = new ethers.Wallet.createRandom().connect(provider)
 
-// const contract = new ethers.Contract(address, abi.abi, provider)
-const wallet = ethers.Wallet.createRandom().connect(provider)
+console.log(adminWallet.privateKey);
 
-c
-// console.log(wallet)
+adminWallet.getBalance().then(r => console.log(r.toString()))
 
- provider.getBlockNumber().then(t =>{
-    console.log(t )
- });
+// const contract = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, adminWallet)
 
+// contract.balanceOf("0xe15700E8193929F9dE0cD594DabBFeea29ebfAdc").then(r => console.log(r.toString()))
 
+// contract.transfer("0xe15700E8193929F9dE0cD594DabBFeea29ebfAdc", "1000000000000000000000").then(r => console.log(r.toString()))
 
-// contract.connect(signer)
-// console.log(contract.address)
-// const new_contract = contract.attach(address)
-// console.log(wallet.provider)
-// console.log(wallet.signMessage(JSON.stringify({name:'Vu'})))
+// console.log(balance)
+// U2FsdGVkX19yWrzJz0t7nUe0zGGR5gx4a8vMsO76QyDvYc2l3Lay6k8lf+YS1KqSWazr5TE8JsF2YXL/REQXSou2Z3V6owFt5Xj1JcSkzt8bLqTynSJCIy2rKTh83qV8
+// console.log(DecryptUsingSymmetricKey("password", "U2FsdGVkX19yWrzJz0t7nUe0zGGR5gx4a8vMsO76QyDvYc2l3Lay6k8lf+YS1KqSWazr5TE8JsF2YXL/REQXSou2Z3V6owFt5Xj1JcSkzt8bLqTynSJCIy2rKTh83qV8"))

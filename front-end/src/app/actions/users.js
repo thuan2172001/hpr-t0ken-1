@@ -1,6 +1,5 @@
 import { userContants } from './contants';
 import axios from './axios';
-import { api } from './config';
 
 export const register = (user) => {
     console.log(user)
@@ -146,9 +145,9 @@ export const getProfile = (_id) => {
 export const transferCoin = (props) => {
     console.log(props)
     const t = new Promise((resol, rej) =>{
-        const info = {addressTo:props.address, privateKey:props.privateKey, amount:props.amount}
+        const info = {transferTo:props.address, privateKeyPassword:props.privateKeyPassword, amount:props.amount}
         console.log(info)
-        axios.post(`${api}/api/transfer`, info).then((res) =>{
+        axios.post(`/api/transfer`, info).then((res) =>{
             if (res.status === 200) {
                 resol( res.data)
             } else {
@@ -164,7 +163,7 @@ export const transferCoin = (props) => {
 export const getWallet = () => {
     const t = new Promise((resol, rej) =>{
         console.log("in here")
-        axios.get(`${api}/api/transfer/balance`).then((res) => { 
+        axios.get(`/api/transfer/balance`).then((res) => { 
             console.log(res)
             if (res.status === 200) {
                 resol(res.data)
@@ -178,13 +177,14 @@ export const getWallet = () => {
     return t;
 }
 
-export const mint = () => {
-    const t = new Promise((resol, rej) => {
-        console.log("in here")
-        axios.get(`${api}/api/transfer/mint`).then((res) => { 
-            console.log(res)
+export const mint = (props) => {
+    console.log(props)
+    const t = new Promise((resol, rej) =>{
+        const info = {privateKeyPassword:props.privateKeyPassword, amount:props.amount}
+        console.log(info)
+        axios.post(`/api/transfer/mint`, info).then((res) =>{
             if (res.status === 200) {
-                resol(res.data)
+                resol( res.data)
             } else {
                 rej( res.data.errors) 
             }
