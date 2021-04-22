@@ -1,4 +1,6 @@
 const CryptoJs = require('crypto-js');
+const {enc} = require('crypto-js');
+
 const secp256k1 = require('secp256k1');
 const bcrypt = require('bcrypt')
 const hash256 = require('hash.js');
@@ -30,6 +32,11 @@ const EncryptUsingSymmetricKey = (symmetricKey, message) => {
 
   return encryptedMessage;
 };
+
+const DecryptUsingSymmetricKey = (symmetricKey, encrypted) => {
+  const message = CryptoJs.AES.decrypt(encrypted, symmetricKey).toString(enc.Utf8)
+  return message
+}
 
 function ConvertBase64ToBuffer(text) {
   return Buffer.from(text, 'base64');
@@ -122,5 +129,6 @@ module.exports = {
   generateRandomId,
   ComparePassword,
   HashPassword,
-  Hash256
+  Hash256,
+  DecryptUsingSymmetricKey
 };

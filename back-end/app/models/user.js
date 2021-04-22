@@ -22,7 +22,7 @@ const UserSchema = new Schema(
         },
         birthday: {
             type: Date,
-            default: () => '15/2/2000'
+            default: () => '12/2/2000'
         },
         phone: {
             type: String,
@@ -36,14 +36,11 @@ const UserSchema = new Schema(
         gender: {
             type: Boolean,
             default: () => false
-        }
+        },
 
-        // encryptedPrivateKey: {
-        //     type: String
-        // },
-        // name: {
-        //     type: String
-        // }
+        encryptedPrivateKey: {
+            type: String
+        }
     }
 )
 const User = Mongoose.model('user_', UserSchema)
