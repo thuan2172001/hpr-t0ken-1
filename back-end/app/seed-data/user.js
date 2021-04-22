@@ -16,8 +16,10 @@ const generateUser = async () => {
       const checkDataExits = await User.findOne({ email: data.email });
       if (!checkDataExits) {
         data.hashPassword = await HashPassword('temp')
-        data.wallet = createWallet('temp')
-        const user = new User(data);
+        const w = createWallet('temp')
+        const wallet = w.address
+        const encryptedPrivateKey = w.encryptedPrivateKey
+        const user = new User({...data, wallet, encryptedPrivateKey});
 
         await user.save();
       }

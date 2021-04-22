@@ -13,7 +13,7 @@ const PROVIDER = new ethers.providers.InfuraProvider('rinkeby', {
 })
 const ABI = JSON.parse(fs.readFileSync('abi.json'))
 
-const createWallet = async (password) => {
+const createWallet = (password) => {
     const wallet = ethers.Wallet.createRandom().connect(PROVIDER)
    return {
        address : wallet.address,
@@ -39,16 +39,13 @@ const createContract = (privateKey) => {
     return contract
 }
 
-const getBalance = async (privateKey, address) => {
+const getBalance = async (address) => {
 
-    // const _wallet = ethers.Wallet.createRandom().connect(PROVIDER)
-    // const _contract = new ethers.Contract(CONTRACT_ADDRESS, ABI.abi, _wallet)
-    // _contract.name().then(t => console.log(t)).catch(err => console.log(err))
-
-    const wallet = createWallet()
+    const wallet = createWallet('temp')
     const contract = createContract(wallet.privateKey)
     
-    const balance = await contract.balanceOf(address)
+    const result = await contract.balanceOf(address)
+    const balance = parseInt(result._hex, 16);
     return balance
 }
 

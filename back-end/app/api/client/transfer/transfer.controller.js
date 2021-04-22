@@ -9,29 +9,28 @@ const api = require('express').Router()
 api.post('/transfer', CheckAccessToken, async (req, res) => {
     try {
         const email = req.userInfo
-        const { transferTo, privateKey } = req.body
+        const { transferTo, privateKey, amount } = req.body
         const user = await User.findOne({ email: email })
         if (!user) throw new Error('TRANSFER.POST.EMAIL_NOT_FOUND')
-        console.log(user.wallet)
-        const isSuccess = await transferMoney(privateKey, transferTo)
+        const isSuccess = await transferMoney(privateKey, transferTo, amount)
         return res.json(isSuccess)
     } catch (err) {
         console.log(err)
+        return res.json(err.message)
     }
 });
 api.get('/transfer/balance', CheckAccessToken, async (req, res) => {
     try {
         const email = req.userInfo
         const user = await User.findOne({ email: email })
-        console.log(user)
-        console.log(req.userInfo)
         if (!user) throw new Error('TRANSFER.POST.EMAIL_NOT_FOUND')
-        // const balance = await getBalance(user.wallet)
-        res.json(20)
+        const balance = await getBalance(user.wallet)
+        res.json({balance})
     } catch (err) {
         console.log(err)
     }
 });
+
 
 
 module.exports = api
