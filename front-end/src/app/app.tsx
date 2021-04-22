@@ -20,8 +20,11 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
-        <div className="mt-5"></div>
+        {user.authenticate && 
+        <>
+          <NavBar />
+          <div className="pt-5"></div>
+        </>}
         <Switch>
           <Route path='/' exact component={TradingPage} />
           <Route path='/login' component={LoginPage} />

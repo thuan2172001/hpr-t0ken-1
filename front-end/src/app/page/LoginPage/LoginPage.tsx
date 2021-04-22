@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { login } from '../../actions';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+// import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import Loading from '../LoadingPage/Loading';
 import { Redirect, useHistory } from 'react-router-dom';
 import './LoginPage.scss'
+import './vendor/bootstrap/css/bootstrap.min.css';
+import './fonts/font-awesome-4.7.0/css/font-awesome.min.css'
+import './fonts/Linearicons-Free-v1.0.0/icon-font.min.css'
+import './vendor/animate/animate.css'
+import './vendor/css-hamburgers/hamburgers.min.css'
+import './vendor/animsition/css/animsition.min.css'
+import './vendor/select2/select2.min.css'
+import './vendor/daterangepicker/daterangepicker.css'
+import './css/util.css'
+import './css/main.css'
+import background from '../../assets/bg-02.jpg'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -65,69 +76,74 @@ export default function LoginPage() {
         }
     }
 
-    return <div
-        style={{ 
-            backgroundImage: "linear-gradient(to right, #a1c4fd, #c2e9fb)",
-            height: '95vh',
-        }}>
+    return <div>
         {
             user.authenticate ? <Redirect to='/' /> :
                 user.loading ? <Loading /> :
-                    <Container fluid>
-                        <Row className="justify-content-md-center pt-3">
-                            <Col className="login-box" sm={10} md={6} lg={4}>
-                                <Form method="POST" style={{ margin: '10px 0' }}>
-                                    <h2 className="login-title"><i className="fa fa-key" aria-hidden="true" /> Sign in</h2>
-                                    <Form.Group className="form-group" controlId="formBasicEmail">
-                                        <Form.Label>Email address</Form.Label>
-                                        <Form.Control className="form-control"
-                                            value={email}
-                                            onBlur={handleEmailBlur}
-                                            onChange={handleEmailChange}
-                                            name='email'
-                                            type="email"
-                                            placeholder="Enter email"
-                                            required />
-                                        <Form.Text className="text-muted">
-                                            We'll never share your email with anyone else.
-                                        </Form.Text>
-                                        {error && <span style={{fontSize:"18px"}} className="text-danger" >{error}</span>}
-                                    </Form.Group>
+            	<div className="limiter">
+                    <div className="container-login100">
+                        <div className="wrap-login100">
+                            <form className="login100-form validate-form">
+                                <span className="login100-form-title p-b-43">
+                                    Login to continue
+                                </span>
+                                
+                                <div className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <input className="input100" 
+                                    value={email}
+                                    onBlur={handleEmailBlur}
+                                    onChange={handleEmailChange}
+                                    name='email'
+                                    type="email"
+                                    placeholder="Enter email"
+                                    required />
+                                    <span className="focus-input100"></span>
+                                </div>
+                                
+                                <div className="wrap-input100 validate-input" data-validate="Password is required">
+                                    <input className="input100" 
+                                    value={password}
+                                    onBlur={handlePasswordBlur}
+                                    onChange={handlePasswordChange}
+                                    name='password'
+                                    type="password"
+                                    placeholder="Password"
+                                    required />
+                                    <span className="focus-input100"></span>
+                                </div>
 
-                                    <Form.Group controlId="formBasicPassword">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            value={password}
-                                            onBlur={handlePasswordBlur}
-                                            onChange={handlePasswordChange}
-                                            name='password'
-                                            type="password"
-                                            placeholder="Password"
-                                            required
-                                        />
-                                        {error && <span style={{fontSize:"18px"}} className="text-danger" >{error}</span>}
-                                    </Form.Group>
-                                    <Button className="btn btn-outline-primary" onClick={handleSubmit}>
-                                        Submit
-                                    </Button>
-                                    <a style={{
-                                        fontSize: "16px",
-                                        lineHeight: "inherit",
-                                        textTransform: "none",
-                                        fontStyle: "normal",
-                                        color: "gray",
-                                        cursor: "inherit",
-                                        position: "absolute",
-                                        right: "16px",
+                                <div className="container-login100-form-btn">
+                                    <button className="login100-form-btn" onClick={handleSubmit}>
+                                        Login
+                                    </button>
+                                </div>
+                                
+                                <div className="text-center p-t-46 p-b-20">
+                                <a style={{
                                     }} href="/register">
                                         <span>Don't have an account? </span><span style={{
                                             color: "blue"
                                         }}>Register now !</span>
                                     </a>
-                                </Form>
-                            </Col>
-                        </Row>
-                    </Container>
+                                </div>
+
+                                <div className="login100-form-social flex-c-m">
+                                    <a href="#" className="login100-form-social-item flex-c-m bg1 m-r-5">
+                                        <i className="fa fa-facebook-f" aria-hidden="true"></i>
+                                    </a>
+
+                                    <a href="#" className="login100-form-social-item flex-c-m bg2 m-r-5">
+                                        <i className="fa fa-twitter" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </form>
+
+                            <div className="login100-more" style={{
+                                backgroundImage: `url(${background})`}}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         }
     </div>
 }
