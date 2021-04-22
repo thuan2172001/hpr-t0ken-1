@@ -32,7 +32,7 @@ export default function ProfilePage() {
         setEmail(user.user.email);
         setPhone(user.user.phone);
         setWallet(user.user.wallet);
-    }, [user]);
+    }, [user.user]);
 
     const reset = () => {
         setfirstName(user.user.firstName);
@@ -80,7 +80,8 @@ export default function ProfilePage() {
                 setShow(false);
                 dispatch(updateProfile(newUser));
                 console.log(user)
-                alert('Change successfully!')
+                // alert('Change successfully')
+                // window.location.reload()
             }
         }
     }

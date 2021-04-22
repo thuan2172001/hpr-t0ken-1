@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { register } from '../../actions';
-import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import { Redirect, useHistory } from 'react-router-dom';
 import './RegisterPage.scss';
+import '../LoginPage/vendor/bootstrap/css/bootstrap.min.css';
+import '../LoginPage/fonts/font-awesome-4.7.0/css/font-awesome.min.css'
+import '../LoginPage/fonts/Linearicons-Free-v1.0.0/icon-font.min.css'
+import '../LoginPage/vendor/animate/animate.css'
+import '../LoginPage/vendor/css-hamburgers/hamburgers.min.css'
+import '../LoginPage/vendor/animsition/css/animsition.min.css'
+import '../LoginPage/vendor/select2/select2.min.css'
+import '../LoginPage/vendor/daterangepicker/daterangepicker.css'
+import '../LoginPage/css/util.css'
+import '../LoginPage/css/main.css'
+import background from '../../assets/bg-02.jpg'
 
 export default function RegisterPage() {
     const [firstName, setfirstName] = useState('');
     const [lastName, setlastName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [privateKey, setPrivateKey] = useState('');
+    const [privatePass, setPrivatePass] = useState('');
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
     const user = useSelector((state:RootStateOrAny) => state.user);
@@ -85,18 +96,9 @@ export default function RegisterPage() {
         }
     }
 
-    const handlePhoneBlur = () => {
-        if (!phone.match(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g) || phone.length < 9) {
-            setError('Phone number is invalid!');
-            setShow(true);
-        } else {
-            setError('');
-        }
-    }
-
     const handleSubmit = () => {
         console.log(error)
-        if (firstName && lastName && email && password && phone && error.length === 0) {
+        if (firstName && lastName && email && password && error.length === 0) {
             const user = {firstName, lastName, email, password}
             dispatch(register(user));
             setfirstName('');
@@ -125,88 +127,116 @@ export default function RegisterPage() {
         }}>
         {
             user.authenticate ? <Redirect to='/' /> :
-                <Container fluid>
-                    <Row className="justify-content-md-center pt-3">
-                        <Col className="form-sign-up register-box" sm={10} lg={4}>
-                            <h2 className="login-title"><i className="fa fa-key" aria-hidden="true" /> Sign up</h2>
-                            <hr />
-                            <Form method='POST' style={{ margin: '10px 0' }} encType='multipart/form-data'>
-                                <Form.Group className="row">
-                                    <Col>
-                                        <Form.Label>First Name</Form.Label>
-                                        <Form.Control
-                                            value={firstName}
-                                            name='firstName'
-                                            type="text"
-                                            placeholder="First Name"
-                                            onBlur={handlefirstNameBlur}
-                                            onChange={e => setfirstName(e.target.value)}
-                                            required />
-                                    </Col>
-                                    <Col>
-                                        <Form.Label>Last Name</Form.Label>
-                                        <Form.Control
-                                            value={lastName}
-                                            name='lastName'
-                                            type="text"
-                                            placeholder="Last Name"
-                                            onBlur={handlelastNameblur}
-                                            onChange={e => setlastName(e.target.value)}
-                                            required />
-                                    </Col>
-                                </Form.Group>
-                                <Form.Group className="row">
-                                    <Col sm={12}>
-                                        <Form.Label>Phone number</Form.Label>
-                                        <Form.Control
-                                            value={phone}
-                                            name='phone'
-                                            type="tel"
-                                            placeholder="Phone number"
-                                            onBlur={handlePhoneBlur}
-                                            onChange={e => setPhone(e.target.value)}
-                                            required />
-                                    </Col>
-                                </Form.Group>
-                                <Form.Group controlId="formBasicEmail">
-                                    <Form.Label>Email address</Form.Label>
-                                    <Form.Control
-                                        value={email}
-                                        name='email'
-                                        type="email"
-                                        placeholder="Enter email"
-                                        onBlur={handleEmailBlur}
-                                        onChange={handleEmailChange}
+                <div className="limiter">   
+                    <div className="container-login100">
+                        <div className="wrap-login100">
+                            <form method='POST' style={{ margin: '10px 0' }} 
+                                encType='multipart/form-data' className="login100-form validate-form">
+                                <span className="login100-form-title p-b-43">
+                                    Register Account
+                                </span>
+                                                                
+                                <div className="wrap-input100 validate-input">
+                                    <input className="input100" 
+                                        value={firstName}
+                                        name='firstName'
+                                        type="text"
+                                        placeholder="First Name"
+                                        onBlur={handlefirstNameBlur}
+                                        onChange={e => setfirstName(e.target.value)}
+                                        required/>
+                                    <span className="focus-input100"></span>
+                                </div>
+
+                                <div className="wrap-input100 validate-input">
+                                    <input className="input100" 
+                                        value={lastName}
+                                        name='lastName'
+                                        type="text"
+                                        placeholder="Last Name"
+                                        onBlur={handlelastNameblur}
+                                        onChange={e => setlastName(e.target.value)}
                                         required />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicPassword">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        value={password}
-                                        name='password'
-                                        type="password"
-                                        placeholder="Password"
-                                        onBlur={handlePasswordBlur}
-                                        onChange={handlePasswordChange}
-                                        required />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicConfirmPassword">
-                                    <Form.Label>Confirm Password</Form.Label>
-                                    <Form.Control
-                                        value={confirmPassword}
-                                        type="password"
-                                        placeholder="Comfirm Password"
-                                        onBlur={handleConfirmPasswordBlur}
-                                        onChange={e => setConfirmPassword(e.target.value)}
-                                        required />
-                                </Form.Group>
-                                <Button className="btn btn-outline-primary" onClick={handleSubmit}>
-                                    Submit
-                                </Button>
-                                {error && <span style={{fontSize:"18px", position:"absolute", right:"15px"}} className="text-danger" >{error}</span>}
-                            </Form>
-                        </Col>
-                    </Row>
-                </Container>}
+                                    <span className="focus-input100"></span>
+                                </div>
+                                
+                                <div className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <input className="input100" 
+                                    value={email}
+                                    onBlur={handleEmailBlur}
+                                    onChange={handleEmailChange}
+                                    name='email'
+                                    type="email"
+                                    placeholder="Enter email"
+                                    required />
+                                    <span className="focus-input100"></span>
+                                </div>
+                                
+                                <div className="wrap-input100 validate-input" data-validate="Password is required">
+                                    <input className="input100" 
+                                    value={password}
+                                    onBlur={handlePasswordBlur}
+                                    onChange={handlePasswordChange}
+                                    name='password'
+                                    type="password"
+                                    placeholder="Password"
+                                    required />
+                                    <span className="focus-input100"></span>
+                                </div>
+
+                                <div className="wrap-input100 validate-input">
+                                    <input className="input100" 
+                                    value={confirmPassword}
+                                    type="password"
+                                    placeholder="Comfirm Password"
+                                    onBlur={handleConfirmPasswordBlur}
+                                    onChange={e => setConfirmPassword(e.target.value)}
+                                    required />
+                                    <span className="focus-input100"></span>
+                                </div>
+
+                                <div className="wrap-input100 validate-input">
+                                    <input className="input100" 
+                                    value={privateKey}
+                                    type="privateKey"
+                                    placeholder="Private Key (optional)"
+                                    onChange={e => setPrivateKey(e.target.value)}
+                                    />
+                                    <span className="focus-input100"></span>
+                                </div>
+
+                                <div className="wrap-input100 validate-input">
+                                    <input className="input100" 
+                                    value={privatePass}
+                                    type="privatePass"
+                                    placeholder="Private key Password (optional)"
+                                    onChange={e => setPrivatePass(e.target.value)}
+                                    />
+                                    <span className="focus-input100"></span>
+                                </div>
+
+                                <div className="container-login100-form-btn">
+                                    <button className="login100-form-btn" onClick={handleSubmit}>
+                                        Sign up
+                                    </button>
+                                </div>
+                                
+                                <div className="text-center p-t-46 p-b-20">
+                                <a style={{
+                                    }} href="/login">
+                                        <span>Have an account? </span><span style={{
+                                            color: "blue"
+                                        }}>Login here!</span>
+                                    </a>
+                                </div>
+                            </form>
+
+                            <div className="login100-more" style={{
+                                backgroundImage: `url(${background})`}}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
     </div>
 }
