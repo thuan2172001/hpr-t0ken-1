@@ -1,17 +1,18 @@
 
-const bcrypt = require('bcrypt')
 const User = require("../../../models/user");
-const { createWallet, createContract, getBalance, transferMoney } = require('../../../utils/wallet');
+const { DecryptUsingSymmetricKey } = require('../../../utils/crypto-utils');
+const { getBalance, transferMoney, mintMoney } = require('../../../utils/wallet');
 const { CheckAccessToken } = require('../../middleware/auth/auth.mid');
 
 const api = require('express').Router()
 
 api.post('/transfer', CheckAccessToken, async (req, res) => {
     try {
-        const email = req.userInfo
-        const { transferTo, privateKey, amount } = req.body
-        const user = await User.findOne({ email: email })
+        const { transferTo, privateKeyPassword, amount } = req.body
+        const user = await User.findOne({ email:  req.userInfo })
         if (!user) throw new Error('TRANSFER.POST.EMAIL_NOT_FOUND')
+        const privateKey = DecryptUsingSymmetricKey(user.encryptedPrivateKey, privateKeyPassword)
+        if (!privateKey || privateKey === "") throw new Error('TRANSFER.POST.PASSWORD_WRONG')
         const isSuccess = await transferMoney(privateKey, transferTo, amount)
         return res.json(isSuccess)
     } catch (err) {
@@ -21,8 +22,7 @@ api.post('/transfer', CheckAccessToken, async (req, res) => {
 });
 api.get('/transfer/balance', CheckAccessToken, async (req, res) => {
     try {
-        const email = req.userInfo
-        const user = await User.findOne({ email: email })
+        const user = await User.findOne({ email: req.userInfo })
         if (!user) throw new Error('TRANSFER.POST.EMAIL_NOT_FOUND')
         const balance = await getBalance(user.wallet)
         res.json({balance})
@@ -30,6 +30,20 @@ api.get('/transfer/balance', CheckAccessToken, async (req, res) => {
         console.log(err)
     }
 });
+api.post('/transfer/mint', CheckAccessToken, async (req, res) => {
+    try {
+        const { privateKeyPassword, amount } = req.body
+        const user = await User.findOne({ email: req.userInfo })
+        if (!user) throw new Error('TRANSFER.POST.EMAIL_NOT_FOUND')
+        const privateKey = DecryptUsingSymmetricKey(privateKeyPassword, user.encryptedPrivateKey)
+        if (!privateKey || privateKey === "") throw new Error('TRANSFER.POST.PASSWORD_WRONG')
+        const isSuccess = await mintMoney(privateKey, amount)
+        res.json({isSuccess})
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 
 
 

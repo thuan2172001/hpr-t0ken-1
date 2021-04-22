@@ -32,7 +32,15 @@ const createWalletFromPrivateKey = (privateKey, password) => {
        encryptedPrivateKey : EncryptUsingSymmetricKey(password, wallet.privateKey)
    }
 }
-
+const createWalletFromMnemonic = (mnemonic, password) => {
+    const wallet = new ethers.Wallet.fromMnemonic(mnemonic).connect(PROVIDER)
+    return {
+       address : wallet.address,
+       publicKey : wallet.publicKey,
+       privateKey : wallet.privateKey,
+       encryptedPrivateKey : EncryptUsingSymmetricKey(password, wallet.privateKey)
+   }
+}
 const createContract = (privateKey) => {
     const wallet = new ethers.Wallet(privateKey).connect(PROVIDER)
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI.abi, wallet)
@@ -55,7 +63,14 @@ const transferMoney = async (privateKey, transferTo, amount = 1) => {
     const isSuccess = await contract.transfer(transferTo, amount)
     return isSuccess 
 }
+
+const mintMoney = async (privateKey, amount=10) => {
+    const contract = createContract(privateKey)
+    const options = { gasPrice: 1000000000, gasLimit: 85000}
+    const isSuccess = await contract.mint(amount, options)
+    return isSuccess
+}
 module.exports = {
-    createWallet, createWalletFromPrivateKey,
-    getBalance, transferMoney
+    createWallet, createWalletFromPrivateKey, createWalletFromMnemonic,
+    getBalance, transferMoney, mintMoney,
 }

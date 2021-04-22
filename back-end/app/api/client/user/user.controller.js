@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const User = require("../../../models/user");
 const { ComparePassword, HashPassword, DecryptUsingSymmetricKey } = require("../../../utils/crypto-utils");
 const { badRequest } = require("../../../utils/response-utils");
-const { createWallet, createWalletFromPrivateKey } = require("../../../utils/wallet");
+const { createWallet, createWalletFromPrivateKey, createWalletFromMnemonic } = require("../../../utils/wallet");
 
 const api = require('express').Router()
 
@@ -21,8 +21,16 @@ api.post('/user', async (req, res) => {
         bcrypt.hash(data.password, salt, async (err, encrypted) => {
             if (err) return res.json(badRequest(err.message))
             data.hashPassword = encrypted
-            if (!data.privateKey || data.privateKey === "") {
-                const w = createWallet('temp')
+            if (data.privateKey & data.privateKey !== "") {
+                const w = createWalletFromPrivateKey(data.privateKey, data.privateKeyPassword)
+                const wallet = w.address
+                const encryptedPrivateKey = w.encryptedPrivateKey
+                const user = new User({ ...data, wallet, encryptedPrivateKey });
+                const info = await user.save()
+                return res.json(info)
+            }
+            if (data.mnemonic && data.mnemonic !== "") {
+                const w = createWalletFromMnemonic(data.mnemonic, data.privateKeyPassword)
                 const wallet = w.address
                 const encryptedPrivateKey = w.encryptedPrivateKey
                 const user = new User({ ...data, wallet, encryptedPrivateKey });
@@ -30,7 +38,7 @@ api.post('/user', async (req, res) => {
                 return res.json(info)
             }
 
-            const w = createWalletFromPrivateKey(data.privateKey, data.privateKeyPassword)
+            const w = createWallet('temp')
             const wallet = w.address
             const encryptedPrivateKey = w.encryptedPrivateKey
             const user = new User({ ...data, wallet, encryptedPrivateKey });
