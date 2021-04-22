@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {TradingPage} from "./page/TradingPage/TradingPage";
+import {GetCoinPage} from "./page/GetCoinPage/GetCoinPage";
 import LoginPage from './page/LoginPage/LoginPage';
 import {NavBar} from './component/nav-bar/navbar'
 import { isUserLoggedIn } from './actions';
@@ -30,7 +31,7 @@ function App() {
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfilePage} />
-          <Route path='/setting' component={ProfilePage} />
+          <Route path='/get-coin' component={GetCoinPage} />
         </Switch>
       </Router>
     </div>

@@ -5,14 +5,6 @@ import { login } from '../../actions';
 import Loading from '../LoadingPage/Loading';
 import { Redirect, useHistory } from 'react-router-dom';
 import './LoginPage.scss'
-import './vendor/bootstrap/css/bootstrap.min.css';
-import './fonts/font-awesome-4.7.0/css/font-awesome.min.css'
-import './fonts/Linearicons-Free-v1.0.0/icon-font.min.css'
-import './vendor/animate/animate.css'
-import './vendor/css-hamburgers/hamburgers.min.css'
-import './vendor/animsition/css/animsition.min.css'
-import './vendor/select2/select2.min.css'
-import './vendor/daterangepicker/daterangepicker.css'
 import './css/util.css'
 import './css/main.css'
 import background from '../../assets/bg-02.jpg'
@@ -124,16 +116,6 @@ export default function LoginPage() {
                                         <span>Don't have an account? </span><span style={{
                                             color: "blue"
                                         }}>Register now !</span>
-                                    </a>
-                                </div>
-
-                                <div className="login100-form-social flex-c-m">
-                                    <a href="#" className="login100-form-social-item flex-c-m bg1 m-r-5">
-                                        <i className="fa fa-facebook-f" aria-hidden="true"></i>
-                                    </a>
-
-                                    <a href="#" className="login100-form-social-item flex-c-m bg2 m-r-5">
-                                        <i className="fa fa-twitter" aria-hidden="true"></i>
                                     </a>
                                 </div>
                             </form>
