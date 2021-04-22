@@ -79,8 +79,8 @@ export default function ProfilePage() {
                 setError('');
                 setShow(false);
                 dispatch(updateProfile(newUser));
+                alert('Change successfully')
                 console.log(user)
-                // alert('Change successfully')
                 // window.location.reload()
             }
         }

@@ -3,16 +3,8 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { register } from '../../actions';
 import { Redirect, useHistory } from 'react-router-dom';
 import './RegisterPage.scss';
-import '../LoginPage/vendor/bootstrap/css/bootstrap.min.css';
-import '../LoginPage/fonts/font-awesome-4.7.0/css/font-awesome.min.css'
-import '../LoginPage/fonts/Linearicons-Free-v1.0.0/icon-font.min.css'
 import '../LoginPage/vendor/animate/animate.css'
-import '../LoginPage/vendor/css-hamburgers/hamburgers.min.css'
 import '../LoginPage/vendor/animsition/css/animsition.min.css'
-import '../LoginPage/vendor/select2/select2.min.css'
-import '../LoginPage/vendor/daterangepicker/daterangepicker.css'
-import '../LoginPage/css/util.css'
-import '../LoginPage/css/main.css'
 import background from '../../assets/bg-02.jpg'
 
 export default function RegisterPage() {
