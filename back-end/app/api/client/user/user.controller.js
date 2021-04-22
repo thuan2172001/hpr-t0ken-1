@@ -21,7 +21,7 @@ api.post('/user', async (req, res) => {
         bcrypt.hash(data.password, salt, async (err, encrypted) => {
             if (err) return res.json(badRequest(err.message))
             data.hashPassword = encrypted
-            if (data.privateKey & data.privateKey !== "") {
+            if (data.privateKey && data.privateKey !== "") {
                 const w = createWalletFromPrivateKey(data.privateKey, data.privateKeyPassword)
                 const wallet = w.address
                 const encryptedPrivateKey = w.encryptedPrivateKey
@@ -97,12 +97,12 @@ api.put('/user/:userId', CheckAccessToken, async (req, res) => {
 
 api.post('/user/privateKey', CheckAccessToken, async (req, res) => {
     try {
-        const { password } = req.body
+        const { privateKeyPassword } = req.body
 
         const user = await User.findOne({ email: req.userInfo })
         if (!user) throw new Error('USER.POST.EMAIL_NOT_FOUND')
         const { encryptedPrivateKey } = user
-        const privateKey = DecryptUsingSymmetricKey(password, encryptedPrivateKey)
+        const privateKey = DecryptUsingSymmetricKey(privateKeyPassword, encryptedPrivateKey)
         if (privateKey === "" || !privateKey) throw new Error('USER.POST.PASSOWRD_WRONG')
         return res.json({privateKey})
     } catch (err) {

@@ -11,7 +11,7 @@ api.post('/transfer', CheckAccessToken, async (req, res) => {
         const { transferTo, privateKeyPassword, amount } = req.body
         const user = await User.findOne({ email:  req.userInfo })
         if (!user) throw new Error('TRANSFER.POST.EMAIL_NOT_FOUND')
-        const privateKey = DecryptUsingSymmetricKey(user.encryptedPrivateKey, privateKeyPassword)
+        const privateKey = DecryptUsingSymmetricKey(privateKeyPassword, user.encryptedPrivateKey)
         if (!privateKey || privateKey === "") throw new Error('TRANSFER.POST.PASSWORD_WRONG')
         const isSuccess = await transferMoney(privateKey, transferTo, amount)
         return res.json(isSuccess)

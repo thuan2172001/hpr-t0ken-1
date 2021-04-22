@@ -154,7 +154,6 @@ const jwt = require("jsonwebtoken");
 const CheckAccessToken = async (req, res, next) => {
     try {
         const auth = req.headers.authorization.split(' ')[1]
-        console.log(auth)
         if (!auth || auth === '') throw new Error('AUTH.MISSING_ACCESS_TOKEN')
 
         jwt.verify(auth, TOKEN_SECRET, (err, data) => {
