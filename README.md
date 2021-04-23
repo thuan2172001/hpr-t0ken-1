@@ -4,9 +4,7 @@
 A blockchain wallet is a digital wallet that allows users to store and manage their coin. A blockchain wallet allows transfers in cryptocurrencies.
 
 ## Version
-[![Version](https://badge.fury.io/gh/tterb%2FHyde.svg)](https://badge.fury.io/gh/tterb%2FHyde)
-[![GitHub Release](https://img.shields.io/github/release/tterb/PlayMusic.svg?style=flat)]()  
-
+[![GitHub version](https://badge.fury.io/gh/haipro287%2Fhpr-t0ken.svg)](https://badge.fury.io/gh/haipro287%2Fhpr-t0ken)
 ### Key function:
 * Transfers in cryptocurrencies
 * Ask for charity
@@ -17,7 +15,7 @@ A blockchain wallet is a digital wallet that allows users to store and manage th
 * MongoDB
 * NodeJS
 * ReactJS
-* BlockChain
+* Ethereum
 
 ## Installation
 
@@ -25,28 +23,34 @@ A blockchain wallet is a digital wallet that allows users to store and manage th
    ```sh
    git clone https://github.com/haipro287/hpr-t0ken
    ```
-2. Install YARN packages
-   ```sh
-   cd ./back-end
-   yarn install
-   cd ../front-end
-   yarn install
-   cd ../block-chain
-   yarn install
-   ```
-3. Create your `.env` file same as `env.example` file in front-end, back-end, block-chain directory
+2. Create your `.env` file same as `env.example` file in front-end, back-end, block-chain directory
 
-4. Run Docker
+3. Install MongoDB via docker or use your own MongoDB
+   ```sh
+   docker-compose up -d
+   ```
+   
+4. Install Back-end
+   ```sh
+   cd back-end
+   yarn
+   yarn start
+   ```
 
-5. In front-end run: 
+5. Install front-end 
    ```sh
-    yarn run start
+   cd front-end
+   yarn
+   yarn start
    ```
-   In back-end run: 
+   
+6. Ethereum smart contract: compile and use by your own
    ```sh
-    yarn run start
+   ganache-cli
+   cd blockchain
+   yarn
+   yarn compile
+   yarn deploy
    ```
-   In block-chain run: 
-   ```sh
-    yarn run start
-   ```
+   or use my deployed contract in Rinkeby testnet at 0x690d5f4e017224871c097bf0d42e9f7a867995b4 (compile abi.json youself hehe :)))
+   
