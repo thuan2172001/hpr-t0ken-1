@@ -1,19 +1,20 @@
-# Web app: Blockchain's Wallet
+# HPR (haipro) Blockchain's Wallet
 
 ## About: 
-A blockchain wallet is a digital wallet that allows users to store and manage their coin. A blockchain wallet allows transfers in cryptocurrencies.
+A blockchain wallet is a digital wallet that allows users to store and manage their HPR (haipro ERC20) coin. A blockchain wallet allows transfers in HPR.
 
 ## Version
 [![GitHub version](https://badge.fury.io/gh/haipro287%2Fhpr-t0ken.svg)](https://badge.fury.io/gh/haipro287%2Fhpr-t0ken)
 ### Key function:
-* Transfers in cryptocurrencies
-* Ask for charity
+* Transfers in HPR
+* Ask for charity from contract (100 HPR maximum)
 * Manage account's information
 
 ### Technologies:
 * Docker
 * MongoDB
 * NodeJS
+* ExpressJS
 * ReactJS
 * Ethereum
 
