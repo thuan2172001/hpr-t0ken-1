@@ -13,6 +13,10 @@ export const GetCoinPage = () => {
             console.log('a')
             mint(data).then(t => {
                 console.log(t);
+                alert('Successfully!')
+            }).catch(e => {
+                console.log(e);
+                alert('Fail!')
             });
     });
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import avatar from '../../assets/avatar.png';
-import { getProfile, updateProfile, getWallet } from '../../actions';
+import { getProfile, updateProfile, getWallet, getPrivateKey } from '../../actions';
 import Loading from '../LoadingPage/Loading';
 import './ProfilePage.scss'
 
@@ -13,6 +13,7 @@ export default function ProfilePage() {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [wallet, setWallet] = useState('');
+    const [privateKey, setPrivateKey] = useState('');
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
     const [balance, setBalance] = useState('');
@@ -27,6 +28,10 @@ export default function ProfilePage() {
             console.log(t)
             setBalance(`${t.balance} HPR`);
         });
+        getPrivateKey({privateKeyPassword: "temp"}).then(t => {
+            console.log(t)
+            setPrivateKey(t.privateKey)
+        })
         setfirstName(user.user.firstName);
         setlastName(user.user.lastName);
         setEmail(user.user.email);
@@ -143,6 +148,13 @@ export default function ProfilePage() {
                                                 value={email}
                                                 disabled={true}
                                                 type="email" />
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicKey">
+                                            <Form.Label>Private Key</Form.Label>
+                                            <Form.Control
+                                                value={privateKey}
+                                                disabled={true}
+                                                type="text" />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicWallet">
                                             <Form.Label>Wallet's Address</Form.Label>

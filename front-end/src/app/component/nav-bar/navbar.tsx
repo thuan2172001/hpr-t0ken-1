@@ -31,6 +31,8 @@ export const NavBar = () => {
                             <Dropdown.Menu>
                                 <Dropdown.Item style={{backgroundColor: "transparent"}} href="/profile">
                                     <i className="far fa-address-card" /> Profile</Dropdown.Item>
+                                <Dropdown.Item style={{backgroundColor: "transparent"}} href="/">
+                                    <i className="fas fa-paper-plane" /> Trade Coin</Dropdown.Item>
                                 <Dropdown.Item style={{backgroundColor: "transparent"}} href="/get-coin">
                                     <i className="fas fa-coins" /> Get Coin</Dropdown.Item>
                                 <Dropdown.Item style={{backgroundColor: "transparent"}} onClick={handleLogout}>

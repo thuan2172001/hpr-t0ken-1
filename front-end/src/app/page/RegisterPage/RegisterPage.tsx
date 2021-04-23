@@ -221,7 +221,7 @@ export default function RegisterPage() {
                                 <div className="wrap-input100 validate-input">
                                     <input className="input100" 
                                     value={privatePass}
-                                    type="privatePass"
+                                    type="password"
                                     placeholder="Private key Password (optional)"
                                     onChange={e => setPrivatePass(e.target.value)}
                                     />
