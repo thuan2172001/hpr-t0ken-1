@@ -18,7 +18,7 @@ const wallet = new ethers.Wallet.createRandom().connect(provider)
 
 console.log(adminWallet.privateKey);
 
-adminWallet.getBalance().then(r => console.log(r.toString()))
+adminWallet.getBalance().then(r => console.log(ethers.utils.formatEther(r)))
 
 // const contract = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, adminWallet)
 

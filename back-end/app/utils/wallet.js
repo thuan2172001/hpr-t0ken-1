@@ -50,25 +50,25 @@ const getBalance = async (address) => {
     const contract = createContract(wallet.privateKey)
     
     const balance = await contract.balanceOf(address)
-    return BigNumber.from(balance).div(BigNumber.from("1000000000000000000")).toString()
+    return ethers.utils.formatEther(balance)
 }
 
 const transferMoney = async (privateKey, transferTo, amount = 1) => {
     const contract = createContract(privateKey)
-    const isSuccess = await contract.transfer(transferTo, BigNumber.from(amount).mul(BigNumber.from("1000000000000000000")))
+    const isSuccess = await contract.transfer(transferTo, ethers.utils.parseUnits(amount))
     return isSuccess 
 }
 
 const mintMoney = async (privateKey, amount=1) => {
     const contract = createContract(privateKey)
-    const isSuccess = await contract.mint(BigNumber.from(amount).mul(BigNumber.from("1000000000000000000")))
+    const isSuccess = await contract.mint(ethers.utils.parseUnits(amount))
     return isSuccess
 }
 
 const getETHBalance = async (privateKey) => {
     const wallet = new ethers.Wallet(privateKey).connect(PROVIDER)
     const balance = await wallet.getBalance()
-    return BigNumber.from(balance).div(BigNumber.from("1000000000000000000")).toString()
+    return ethers.utils.formatEther(balance)
 }
 
 module.exports = {
