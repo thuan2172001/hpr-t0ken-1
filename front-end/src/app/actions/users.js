@@ -165,7 +165,7 @@ export const getWallet = () => {
         console.log("in here")
         axios.get(`/api/transfer/balance`).then((res) => { 
             console.log(res)
-            if (res.status === 200) {
+            if (res.status === 200) { 
                 resol(res.data)
             } else {
                 rej( res.data.errors) 
@@ -183,6 +183,24 @@ export const mint = (props) => {
         const info = {privateKeyPassword:props.privateKeyPassword, amount:props.amount}
         console.log(info)
         axios.post(`/api/transfer/mint`, info).then((res) =>{
+            if (res.status === 200) {
+                resol( res.data)
+            } else {
+                rej( res.data.errors) 
+            }
+        }).catch(err =>{
+            rej( err) 
+        });
+    })
+    return t;
+}
+
+export const getPrivateKey = (props) => {
+    console.log(props)
+    const t = new Promise((resol, rej) => {
+        const info = {privateKeyPassword: props.privateKeyPassword}
+        console.log(info)
+        axios.post(`/api/user/privateKey`, info).then((res) =>{
             if (res.status === 200) {
                 resol( res.data)
             } else {
