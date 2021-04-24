@@ -1,0 +1,29 @@
+.transactionElement {
+    border-top: 1px solid black;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    border-bottom: 1px solid black;
+}
+
+.transaction-field {
+    color: blue;
+}
+
+.transactionTable{
+    border: 1px solid black;
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+.hash-tag {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

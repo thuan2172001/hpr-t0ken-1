@@ -35,6 +35,8 @@ export const NavBar = () => {
                                     <i className="fas fa-paper-plane" /> Trade Coin</Dropdown.Item>
                                 <Dropdown.Item style={{backgroundColor: "transparent"}} href="/get-coin">
                                     <i className="fas fa-coins" /> Get Coin</Dropdown.Item>
+                                <Dropdown.Item style={{backgroundColor: "transparent"}} href="/transaction">
+                                    <i className="fas fa-history" /> Transaction</Dropdown.Item>
                                 <Dropdown.Item style={{backgroundColor: "transparent"}} onClick={handleLogout}>
                                     <i className="fas fa-sign-out-alt" /> Log out</Dropdown.Item> 
                             </Dropdown.Menu>
