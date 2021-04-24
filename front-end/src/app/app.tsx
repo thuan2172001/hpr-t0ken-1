@@ -3,6 +3,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {TradingPage} from "./page/TradingPage/TradingPage";
 import {GetCoinPage} from "./page/GetCoinPage/GetCoinPage";
+import {TransactionPage} from './page/TransactionPage/TransactionPage';  
 import LoginPage from './page/LoginPage/LoginPage';
 import {NavBar} from './component/nav-bar/navbar'
 import { isUserLoggedIn } from './actions';
@@ -32,6 +33,7 @@ function App() {
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfilePage} />
           <Route path='/get-coin' component={GetCoinPage} />
+          <Route path='/transaction' component={TransactionPage} />
         </Switch>
       </Router>
     </div>

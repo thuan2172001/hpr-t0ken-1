@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Alert, Modal} from 'react-bootstrap';
 import avatar from '../../assets/avatar.png';
-import { getProfile, updateProfile, getWallet, getPrivateKey } from '../../actions';
-import Loading from '../LoadingPage/Loading';
+import { getProfile, updateProfile, getWallet, getPrivateKey, checkAuth, getLogs} from '../../actions';
+import Loading from '../LoadingPage/Loading'; 
 import './ProfilePage.scss'
 
 export default function ProfilePage() {
@@ -12,12 +12,33 @@ export default function ProfilePage() {
     const [lastName, setlastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
     const [wallet, setWallet] = useState('');
     const [privateKey, setPrivateKey] = useState('');
+    const [typeOfPrivateKey, setTypeOfPrivateKey] = useState('password')
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
     const [balance, setBalance] = useState('');
     const dispatch = useDispatch();
+    const [showDialog, setShowDialog] = useState(false);
+    const [loading, setLoading] = useState(true)
+    const handleClose = () => {
+        setShowDialog(false);
+        setError("")
+    }
+    const handleShow = () => setShowDialog(true);
+    const handleExport = () => {
+        checkAuth({email, password}).then(t => {
+            console.log(t)
+            if (t.token) {
+                setTypeOfPrivateKey('text')
+                setError("")
+                setShowDialog(false)
+            } else {
+                setError('Password is incorrect')
+            }
+        })
+    }
 
     useEffect(() => {
         console.log(user)
@@ -27,11 +48,11 @@ export default function ProfilePage() {
         getWallet().then(t => {
             console.log(t)
             setBalance(`${t.balance} HPR`);
-        });
+        }).then(() => setLoading(false)).catch(() => setLoading(false));
         getPrivateKey({privateKeyPassword: "temp"}).then(t => {
             console.log(t)
             setPrivateKey(t.privateKey)
-        })
+        }).then(() => setLoading(false)).catch(() => setLoading(false));
         setfirstName(user.user.firstName);
         setlastName(user.user.lastName);
         setEmail(user.user.email);
@@ -91,6 +112,7 @@ export default function ProfilePage() {
         }
     }
 
+    if (loading) return <Loading />
     return (
         <Container fluid className="pt-5">
             <Row className="justify-content-md-center">
@@ -150,11 +172,38 @@ export default function ProfilePage() {
                                                 type="email" />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicKey">
-                                            <Form.Label>Private Key</Form.Label>
+                                            <Form.Label>Private Key <span onClick={handleShow} className="fa fa-fw fa-eye"></span>
+                                                </Form.Label>
                                             <Form.Control
                                                 value={privateKey}
                                                 disabled={true}
-                                                type="text" />
+                                                type={typeOfPrivateKey} />
+                                                <Modal show={showDialog} onHide={handleClose} style={{marginTop: "25vh"}}>
+                                                    <Modal.Header closeButton>
+                                                    <Modal.Title>Export your Private Key</Modal.Title>
+                                                    </Modal.Header>
+                                                    <Modal.Body>
+                                                        <p>Enter your password to export Private Key</p>
+                                                        <Form.Group controlId="formBasicEmail">
+                                                            <Form.Control
+                                                                value={password}
+                                                                onChange={e => setPassword(e.target.value)}
+                                                                type="password" />
+                                                        </Form.Group>
+                                                        {error && 
+                                                        <Alert style={{ width: '100%' }} onClose={() => setError("")} variant="danger" dismissible>
+                                                            {error}
+                                                        </Alert>}
+                                                    </Modal.Body>
+                                                    <Modal.Footer>
+                                                    <Button variant="success" onClick={handleExport}>
+                                                        Export
+                                                    </Button>
+                                                    <Button variant="secondary" onClick={handleClose}>
+                                                        Close
+                                                    </Button>
+                                                    </Modal.Footer>
+                                                </Modal>
                                         </Form.Group>
                                         <Form.Group controlId="formBasicWallet">
                                             <Form.Label>Wallet's Address</Form.Label>
@@ -173,7 +222,7 @@ export default function ProfilePage() {
                                     </Form>
                                     <div className='user-button-list'>
                                         <Button className="mr-3" variant="success" onClick={update}>Save</Button>
-                                        <Button className="mr-3" variant="danger" onClick={reset}>Cancel</Button>{' '}
+                                        <Button className="mr-3" variant="secondary" onClick={reset}>Reset</Button>{' '}
                                     </div>
                                 </Col>
                             </Row>
