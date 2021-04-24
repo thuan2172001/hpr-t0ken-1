@@ -31,7 +31,7 @@ const UserSchema = new Schema(
         },
         wallet: {
             type: String,
-            default: () => createWallet('temp')
+            default: () => createWallet('temp').address
         },
         gender: {
             type: Boolean,
