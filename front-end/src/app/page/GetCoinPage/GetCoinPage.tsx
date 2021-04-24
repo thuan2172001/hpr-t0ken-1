@@ -68,7 +68,7 @@ export const GetCoinPage = () => {
                         </div>
                         <div className="row col-12 btn-controller">
                             <button type="submit" className="btn col-3 col-md-2 btn-success btn-custom">Get Coin</button>
-                            <button type="reset" className="btn ml-3 col-3 col-md-2 btn-danger btn-custom">Reset</button>
+                            <button type="reset" className="btn ml-3 col-3 col-md-2 btn-secondary btn-custom">Reset</button>
                         </div>
                     </div>
                 </form>

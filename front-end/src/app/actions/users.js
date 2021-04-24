@@ -177,6 +177,23 @@ export const getWallet = () => {
     return t;
 }
 
+export const checkAuth = (user) => {
+    const t = new Promise((resol, rej) =>{
+        console.log("in here")
+        axios.post(`/api/auth/login`, user).then((res) => { 
+            console.log(res)
+            if (res.status === 200) { 
+                resol(res.data)
+            } else {
+                rej( res.data.errors) 
+            }
+        }).catch(err =>{
+            rej( err) 
+        });
+    })
+    return t;
+}
+
 export const mint = (props) => {
     console.log(props)
     const t = new Promise((resol, rej) =>{
