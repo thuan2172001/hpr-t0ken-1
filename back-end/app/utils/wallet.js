@@ -1,6 +1,6 @@
 
 const { INFURA_ID, CONTRACT_ADDRESS, INFURA_SECRET } = process.env
-const { ethers, BigNumber } = require('ethers')
+const { ethers } = require('ethers')
 const fs = require('fs')
 const { EncryptUsingSymmetricKey } = require('./crypto-utils')
 
@@ -18,7 +18,7 @@ const createWallet = (password = 'temp') => {
         address: wallet.address,
         publicKey: wallet.publicKey,
         privateKey: wallet.privateKey,
-        encryptedPrivateKey: EncryptUsingSymmetricKey(password, wallet.privateKey)
+        encryptedPrivateKey: EncryptUsingSymmetricKey(wallet.privateKey, password)
     }
 }
 
@@ -28,7 +28,7 @@ const createWalletFromPrivateKey = (privateKey, password = 'temp') => {
         address: wallet.address,
         publicKey: wallet.publicKey,
         privateKey: wallet.privateKey,
-        encryptedPrivateKey: EncryptUsingSymmetricKey(password, wallet.privateKey)
+        encryptedPrivateKey: EncryptUsingSymmetricKey(wallet.privateKey, password)
     }
 }
 const createWalletFromMnemonic = (mnemonic, password = 'temp') => {
@@ -37,7 +37,7 @@ const createWalletFromMnemonic = (mnemonic, password = 'temp') => {
         address: wallet.address,
         publicKey: wallet.publicKey,
         privateKey: wallet.privateKey,
-        encryptedPrivateKey: EncryptUsingSymmetricKey(password, wallet.privateKey)
+        encryptedPrivateKey: EncryptUsingSymmetricKey(wallet.privateKey, password)
     }
 }
 const createContract = (privateKey) => {
@@ -48,8 +48,7 @@ const createContract = (privateKey) => {
 
 const getBalance = async (address) => {
     try {
-        const wallet = createWallet()
-        const contract = CONTRACT.connect(wallet.privateKey)
+        const contract = CONTRACT.connect(PROVIDER)
         const balance = await contract.balanceOf(address)
         return ethers.utils.formatEther(balance)
     } catch (err) {
@@ -61,7 +60,10 @@ const getBalance = async (address) => {
 const transferMoney = async (privateKey, transferTo, amount = 1) => {
     try {
         const contract = createContract(privateKey)
+        console.log(ethers.utils.parseUnits(amount))
+        console.log({ transferTo, amount: ethers.utils.parseUnits(amount) })
         const isSuccess = await contract.transfer(transferTo, ethers.utils.parseUnits(amount))
+        console.log(isSuccess)
         return isSuccess
     } catch (err) {
         console.log(err)

@@ -13,6 +13,33 @@ export const TransactionPage = () => {
     useEffect(() => {
         getLogs({address: user.user.wallet}).then(data => {
             console.log(data)
+            setLoading(true)
+            // clearTimeout(timer)
+            data.length !== 0 && 
+            setTransactionHistory(data.reverse().map((element:any, i:number) => 
+                <tr className="row" key={i}>
+                    <td className="col-4 hash-tag text-truncate"><span>
+                        <a className="transaction-field" href={`https://etherscan.io/tx/${element.transactionHash}`}>{element.transactionHash}</a></span></td>
+                    <td className="col-2 hash-tag text-truncate"><span>
+                        {element.event}</span></td>
+                    <td className="col-2 hash-tag text-truncate"><span>
+                        <a className="transaction-field"href={`https://etherscan.io/address/${element.from}`}>{element.from}</a></span></td>
+                    <td className="col-2 hash-tag text-truncate"><span>
+                        <a className="transaction-field" href={`https://etherscan.io/address/${element.to}`}>{element.to}</a></span></td>
+                    <td className="col-2 hash-tag text-truncate"><span>
+                        {element.value}</span></td>
+                </tr>
+            ))
+        }).then(() => setLoading(false)).catch((err:any) => {
+            setLoading(false)
+            console.log(err)
+        })
+    }, [user.user.wallet])
+
+    const rerenderTransaction = () => {
+        getLogs({address: user.user.wallet}).then(data => {
+            setLoading(true)
+            console.log(data)
             // clearTimeout(timer)
             setTransactionHistory(data.reverse().map((element:any, i:number) => 
                 <tr className="row" key={i}>
@@ -31,12 +58,13 @@ export const TransactionPage = () => {
         }).then(() => setLoading(false)).catch((err:any) => {
             console.log(err)
         })
-    })
+    }
 
     if (loading) return <Loading />
     return ( 
         <div className="container pt-5 pb-5">
-            <h2 className="pt-1 pb-3">Transaction History</h2>
+            <h2 className="pt-1 pb-3">Transaction History <button style={{position:"relative", float:"right", marginRight: "8px"}} onClick={rerenderTransaction}>
+                <i className="fas fa-history" /></button></h2>
             <Table className="transactionTable" responsive striped hover>
                 <thead>
                     <tr className="row">

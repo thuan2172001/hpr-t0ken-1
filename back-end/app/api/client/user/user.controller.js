@@ -1,4 +1,3 @@
-
 // const { CommonError } = require("../../../utils/error");
 // const { success } = require("../../../utils/response-utils");
 const { CheckAccessToken } = require("../../middleware/auth/auth.mid");
@@ -21,8 +20,10 @@ api.post('/user', async (req, res) => {
         bcrypt.hash(data.password, salt, async (err, encrypted) => {
             if (err) return res.json(badRequest(err.message))
             data.hashPassword = encrypted
+            data.privateKeyPassword = data.privateKeyPassword ? data.privateKeyPassword : 'temp'
             if (data.privateKey && data.privateKey !== "") {
                 const w = createWalletFromPrivateKey(data.privateKey, data.privateKeyPassword)
+                console.log(w)
                 const wallet = w.address
                 const encryptedPrivateKey = w.encryptedPrivateKey
                 const user = new User({ ...data, wallet, encryptedPrivateKey });
@@ -38,7 +39,7 @@ api.post('/user', async (req, res) => {
                 return res.json(info)
             }
 
-            const w = createWallet('temp')
+            const w = createWallet(data.privateKeyPassword)
             const wallet = w.address
             const encryptedPrivateKey = w.encryptedPrivateKey
             const user = new User({ ...data, wallet, encryptedPrivateKey });
@@ -54,7 +55,6 @@ api.post('/user', async (req, res) => {
 api.get('/user', CheckAccessToken, async (req, res) => {
     try {
         const { userInfo } = req
-        console.log(userInfo)
         const user = await User.findOne({ email: userInfo })
         if (!user) throw new Error('USER.GET.EMAIL_NOT_FOUND')
         res.json(user)
@@ -85,7 +85,6 @@ api.put('/user/:userId', CheckAccessToken, async (req, res) => {
         listField.forEach((field) => {
             user[field] = args.user[field] ?? user[field]
         })
-        console.log(user)
         const status = await user.save()
         return res.json(status)
 
@@ -98,11 +97,9 @@ api.put('/user/:userId', CheckAccessToken, async (req, res) => {
 api.post('/user/privateKey', CheckAccessToken, async (req, res) => {
     try {
         const { privateKeyPassword } = req.body
-
         const user = await User.findOne({ email: req.userInfo })
         if (!user) throw new Error('USER.POST.EMAIL_NOT_FOUND')
-        const { encryptedPrivateKey } = user
-        const privateKey = DecryptUsingSymmetricKey(privateKeyPassword, encryptedPrivateKey)
+        const privateKey = DecryptUsingSymmetricKey(user.encryptedPrivateKey, privateKeyPassword)
         if (privateKey === "" || !privateKey) throw new Error('USER.POST.PASSOWRD_WRONG')
         return res.json({privateKey})
     } catch (err) {

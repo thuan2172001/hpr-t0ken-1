@@ -149,7 +149,7 @@ export const transferCoin = (props) => {
         console.log(info)
         axios.post(`/api/transfer`, info).then((res) =>{
             if (res.status === 200) {
-                resol( res.data)
+                res.data ? resol( res.data) : rej(res.data)
             } else {
                 rej( res.data.errors) 
             }
@@ -201,7 +201,8 @@ export const mint = (props) => {
         console.log(info)
         axios.post(`/api/transfer/mint`, info).then((res) =>{
             if (res.status === 200) {
-                resol( res.data)
+                console.log(res)
+                res.data ? resol( res.data) : rej(res.data)
             } else {
                 rej( res.data.errors) 
             }
@@ -234,7 +235,7 @@ export const getLogs = ({address}) => {
     console.log(address)
     const t = new Promise((resol, rej) => {
         console.log(address)
-        axios.get(`/api/transfer/logs`, address).then((res) =>{
+        axios.get(`/api/transfer/logs?wallet=${address}`).then((res) =>{
             if (res.status === 200) {
                 resol( res.data)
             } else {
