@@ -11,12 +11,11 @@ export const TransactionPage = () => {
     const [loading, setLoading] = useState(true)
     // let timer = setTimeout(() => setReset(!reset), 20000)
     useEffect(() => {
-        getLogs({address: user.user.wallet}).then(data => {
-            console.log(data)
+        user.user.wallet &&
+        getLogs({address: user.user.wallet}).then((data) => {
             setLoading(true)
-            // clearTimeout(timer)
-            data.length !== 0 && 
-            setTransactionHistory(data.reverse().map((element:any, i:number) => 
+            data.list?.length !== 0 && 
+            setTransactionHistory(data.list.reverse().map((element:any, i:number) =>  
                 <tr className="row" key={i}>
                     <td className="col-4 hash-tag text-truncate"><span>
                         <a className="transaction-field" href={`https://rinkeby.etherscan.io/tx/${element.transactionHash}`}>{element.transactionHash}</a></span></td>
@@ -39,9 +38,8 @@ export const TransactionPage = () => {
     const rerenderTransaction = () => {
         getLogs({address: user.user.wallet}).then(data => {
             setLoading(true)
-            console.log(data)
-            // clearTimeout(timer)
-            setTransactionHistory(data.reverse().map((element:any, i:number) => 
+            data.list?.length !== 0 && 
+            setTransactionHistory(data.list.reverse().map((element:any, i:number) => 
                 <tr className="row" key={i}>
                     <td className="col-4 hash-tag text-truncate"><span>
                         <a className="transaction-field" href={`https://etherscan.io/tx/${element.transactionHash}`}>{element.transactionHash}</a></span></td>
