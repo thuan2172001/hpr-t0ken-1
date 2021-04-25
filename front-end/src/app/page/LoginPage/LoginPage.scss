@@ -1,0 +1,88 @@
+.login-box {
+    margin-top: 20vh;
+    // height: 380px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    background-image: linear-gradient(to right, #f7f7f7, #e7eef2);
+    opacity: 1;
+    border-radius: 10px;
+}
+
+.login-key {
+    height: 100px;
+    font-size: 80px;
+    line-height: 100px;
+    background: -webkit-linear-gradient(#27EF9F, #0DB8DE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.login-title {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #1462c2;
+}
+
+.login-form {
+    margin-top: 25px;
+    text-align: left;
+}
+
+
+.form-group {
+    outline: 0px;
+}
+
+.form-control {
+    box-shadow: none;
+    color: rgb(53, 63, 82);
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    min-height: 48px;
+    border-radius: 8px;
+    border: 1px solid rgb(204, 204, 204);
+}
+
+.form-control:focus {
+    border: 1px solid rgb(57, 38, 139);
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0;
+}
+
+label {
+    margin-bottom: 0px;
+}
+
+.form-control-label {
+    font-size: 10px;
+    color: #6C6C6C;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.btn-outline-primary {
+    border-color: #0DB8DE;
+    background-color: #67a1e8;
+    color: #02323d;
+    border-radius: 0px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.btn-outline-primary:hover {
+    background-color: #1096b5;
+    right: 0px;
+}
+
+.login-button {
+    padding-right: 0px;
+    text-align: right;
+    margin-bottom: 25px;
+}

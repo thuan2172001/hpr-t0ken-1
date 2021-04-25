@@ -1,0 +1,63 @@
+.custom-nav {
+    background-color: rgb(5, 24, 61);;
+    margin: auto;
+    padding-left:2%;
+    padding-right:2%;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    z-index: 1;
+}
+
+.nav-link-left {
+    color: white;
+    padding-left: 10px;
+    display: block;
+    /*line-height: 36px;*/
+    float:left;
+    font-family: "Roboto Thin", serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#nav-brand {
+    color: white;
+    padding-right: 20px;
+    float: left;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.right-nav {
+    float: right;
+    position: relative;
+}
+
+.left-nav {
+    float:left;
+    position: relative;
+}
+
+.nav-link-right {
+    color: white;
+    padding-left: 12px;
+    float:right;
+    font-family: "Roboto Thin", serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.avatar {
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+}
