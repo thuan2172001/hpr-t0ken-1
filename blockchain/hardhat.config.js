@@ -44,7 +44,7 @@ module.exports = {
         mnemonic: MNEMONIC,
         initialIndex: 0,
         count: 1,
-        path: "m/44'/889'/0'/0/",
+        path: "m/44'/60'/0'/0",
       },
     },
     rinkeby: {

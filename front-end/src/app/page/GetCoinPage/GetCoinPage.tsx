@@ -1,6 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useForm } from "react-hook-form";
 import { mint } from '../../actions/users'
+import Loading from '../LoadingPage/Loading'; 
+import React, { useState } from 'react';
+
 
 type TradingType = {
     amount: number,
@@ -9,17 +12,22 @@ type TradingType = {
 
 export const GetCoinPage = () => {
     const { handleSubmit, register, formState: { errors } } = useForm<TradingType>();
+    const [loading, setLoading] = useState(false)
     const onSubmit = handleSubmit((data:any) => {
             console.log('a')
             mint(data).then(t => {
+                setLoading(true)
                 console.log(t);
-                alert('Successfully!')
-            }).catch(e => {
-                console.log(e);
+                t.isSuccess? 
+                alert('Successfully!'): alert('Fail!')
+            }).then(() => setLoading(false)).catch((err:any) => {
+                setLoading(false)
+                console.log(err);
                 alert('Fail!')
-            });
+            })
     });
 
+    if (loading) return <Loading />
     return (
         <> 
             <div className="container tradingPage pt-3">
