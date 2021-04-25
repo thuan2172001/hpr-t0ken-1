@@ -1,4 +1,4 @@
-const { ethers } = require('ethers')
+const { ethers, Wallet } = require('ethers')
 const fs = require('fs')
 const { DecryptUsingSymmetricKey, EncryptUsingSymmetricKey } = require('./app/utils/crypto-utils')
 
@@ -10,6 +10,10 @@ const options = {
   INFURA_SECRET,
 }
 
-const provider = new ethers.providers.InfuraProvider('rinkeby', options)
+const provider = new ethers.providers.getDefaultProvider("https://testnet.tomochain.com/") 
+// const provider = new ethers.providers.InfuraProvider('rinkeby', options)
+
 const abi = JSON.parse(fs.readFileSync('abi.json'))
+const contract = new ethers.Contract("0xe6b7262216f7dbd276c163a01f02e3ed73169df5", abi.abi)
+
 

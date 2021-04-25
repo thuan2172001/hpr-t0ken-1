@@ -12,7 +12,6 @@
     "format": "prettier --write \"src/**/*.{js,css,scss,html}\"",
     "rtl": "webpack"
   },
-  "proxy": "http://localhost:2999",
   "eslintConfig": {
     "extends": "react-app"
   },

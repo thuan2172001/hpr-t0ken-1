@@ -19,7 +19,7 @@ export default function RegisterPage() {
     const [privateKeyPassword, setPrivatePass] = useState('');
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
-    const user = useSelector((state:RootStateOrAny) => state.user);
+    const user = useSelector((state: RootStateOrAny) => state.user);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -57,7 +57,7 @@ export default function RegisterPage() {
         }
     }
 
-    const handleEmailChange = (e:any) => {
+    const handleEmailChange = (e: any) => {
         setEmail(e.target.value);
         if (email.indexOf('@') >= 0) {
             setError('');
@@ -74,7 +74,7 @@ export default function RegisterPage() {
         }
     }
 
-    const handlePasswordChange = (e:any) => {
+    const handlePasswordChange = (e: any) => {
         setPassword(e.target.value);
         if (password.length >= 6) {
             setError('');
@@ -90,16 +90,34 @@ export default function RegisterPage() {
         }
     }
 
+    const handlePKPasswordBlur = () => {
+        if (!privateKeyPassword) {
+            setError('Fill the pasword');
+            setShow(true);
+        } else if (privateKeyPassword.length < 6) {
+            setError('Your password must have more or equal 6 characters');
+            setShow(true);
+        }
+    }
+
+    const handlePKPasswordChange = (e: any) => {
+        setPrivatePass(e.target.value);
+        if (privateKeyPassword.length >= 6) {
+            setError('');
+        }
+    }
+
     const handleSubmit = () => {
         console.log(error)
         if (firstName && lastName && email && password && error.length === 0) {
-            const user = {firstName, lastName, email, password, privateKey, privateKeyPassword}
+            const user = { firstName, lastName, email, password, mnemonic, privateKey, privateKeyPassword }
             dispatch(register(user));
             setfirstName('');
             setlastName('');
             setEmail('');
             setPassword('');
             setConfirmPassword('');
+            setPrivatePass('');
             history.push('/login');
         } else {
             setShow(true);
@@ -111,39 +129,41 @@ export default function RegisterPage() {
                 setError('Invalid First name');
             } else if (!lastName) {
                 setError('Invalid Last name');
+            } else if (!password) {
+                setError('Invalid Password');
             }
         }
     }
     return <div
-        style={{ 
+        style={{
             backgroundImage: "linear-gradient(to right, #a1c4fd, #c2e9fb)",
             height: '95vh',
         }}>
         {
             user.authenticate ? <Redirect to='/' /> :
-                <div className="limiter">   
+                <div className="limiter">
                     <div className="container-login100">
                         <div className="wrap-login100">
-                            <form method='POST' style={{ margin: '10px 0' }} 
+                            <form method='POST' style={{ margin: '10px 0' }}
                                 encType='multipart/form-data' className="login100-form validate-form">
                                 <span className="login100-form-title p-b-43">
                                     Register Account
                                 </span>
-                                                                
+
                                 <div className="wrap-input100 validate-input">
-                                    <input className="input100" 
+                                    <input className="input100"
                                         value={firstName}
                                         name='firstName'
                                         type="text"
                                         placeholder="First Name"
                                         onBlur={handlefirstNameBlur}
                                         onChange={e => setfirstName(e.target.value)}
-                                        required/>
+                                        required />
                                     <span className="focus-input100"></span>
                                 </div>
 
                                 <div className="wrap-input100 validate-input">
-                                    <input className="input100" 
+                                    <input className="input100"
                                         value={lastName}
                                         name='lastName'
                                         type="text"
@@ -153,46 +173,46 @@ export default function RegisterPage() {
                                         required />
                                     <span className="focus-input100"></span>
                                 </div>
-                                
-                                <div className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                                    <input className="input100" 
-                                    value={email}
-                                    onBlur={handleEmailBlur}
-                                    onChange={handleEmailChange}
-                                    name='email'
-                                    type="email"
-                                    placeholder="Enter email"
-                                    required />
+
+                                <div className="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                                    <input className="input100"
+                                        value={email}
+                                        onBlur={handleEmailBlur}
+                                        onChange={handleEmailChange}
+                                        name='email'
+                                        type="email"
+                                        placeholder="Enter email"
+                                        required />
                                     <span className="focus-input100"></span>
                                 </div>
-                                
+
                                 <div className="wrap-input100 validate-input" data-validate="Password is required">
-                                    <input className="input100" 
-                                    value={password}
-                                    onBlur={handlePasswordBlur}
-                                    onChange={handlePasswordChange}
-                                    name='password'
-                                    type="password"
-                                    placeholder="Password"
-                                    required />
+                                    <input className="input100"
+                                        value={password}
+                                        onBlur={handlePasswordBlur}
+                                        onChange={handlePasswordChange}
+                                        name='password'
+                                        type="password"
+                                        placeholder="Password"
+                                        required />
                                     <span className="focus-input100"></span>
                                 </div>
 
                                 <div className="wrap-input100 validate-input">
-                                    <input className="input100" 
-                                    value={confirmPassword}
-                                    type="password"
-                                    placeholder="Comfirm Password"
-                                    onBlur={handleConfirmPasswordBlur}
-                                    onChange={e => setConfirmPassword(e.target.value)}
-                                    required />
+                                    <input className="input100"
+                                        value={confirmPassword}
+                                        type="password"
+                                        placeholder="Comfirm Password"
+                                        onBlur={handleConfirmPasswordBlur}
+                                        onChange={e => setConfirmPassword(e.target.value)}
+                                        required />
                                     <span className="focus-input100"></span>
                                 </div>
 
                                 <div className="wrap-input100 validate-input">
-                                    <select className="input100" 
-                                    value={type}
-                                    onChange={e => setType(e.target.value)} style={{border:"none"}}>
+                                    <select className="input100"
+                                        value={type}
+                                        onChange={e => setType(e.target.value)} style={{ border: "none" }}>
                                         <option value="mnemonic">Mnemonic</option>
                                         <option value="privateKey">Private Key</option>
                                     </select>
@@ -200,36 +220,40 @@ export default function RegisterPage() {
                                 </div>
 
                                 {type === "mnemonic" ? <div className="wrap-input100 validate-input">
-                                    <input className="input100" 
-                                    value={mnemonic}
-                                    type="text"
-                                    placeholder="Mnemonic (optional)"
-                                    onChange={e => setMnemonic(e.target.value)}
+                                    <input className="input100"
+                                        value={mnemonic}
+                                        type="text"
+                                        placeholder="Mnemonic (optional)"
+                                        onChange={e => setMnemonic(e.target.value)}
                                     />
                                     <span className="focus-input100"></span>
-                                </div> : type === "privateKey" ? 
-                                <>
+                                </div> : type === "privateKey" ?
+                                    <>
+                                        <div className="wrap-input100 validate-input">
+                                            <input className="input100"
+                                                value={privateKey}
+                                                type="text"
+                                                placeholder="Private Key (optional)"
+                                                onChange={e => setPrivateKey(e.target.value)}
+                                            />
+                                            <span className="focus-input100"></span>
+                                        </div>
+
+                                    </> : <div></div>
+                                }
+
                                 <div className="wrap-input100 validate-input">
-                                    <input className="input100" 
-                                    value={privateKey}
-                                    type="text"
-                                    placeholder="Private Key (optional)"
-                                    onChange={e => setPrivateKey(e.target.value)}
-                                    />
-                                    <span className="focus-input100"></span>
-                                </div> 
-                                <div className="wrap-input100 validate-input">
-                                    <input className="input100" 
-                                    value={privateKeyPassword}
-                                    type="password"
-                                    placeholder="Private key Password (optional)"
-                                    onChange={e => setPrivatePass(e.target.value)}
+                                    <input className="input100"
+                                        value={privateKeyPassword}
+                                        type="password"
+                                        name="privateKeyPassword"
+                                        placeholder="Private key Password"
+                                        onBlur={handlePKPasswordBlur}
+                                        onChange={handlePKPasswordChange}
+                                        required
                                     />
                                     <span className="focus-input100"></span>
                                 </div>
-                                </> : <div></div>
-                                }
-
 
 
                                 <div className="container-login100-form-btn">
@@ -237,9 +261,9 @@ export default function RegisterPage() {
                                         Sign up
                                     </button>
                                 </div>
-                                
+
                                 <div className="text-center p-t-46 p-b-20">
-                                <a style={{
+                                    <a style={{
                                     }} href="/login">
                                         <span>Have an account? </span><span style={{
                                             color: "blue"
@@ -249,11 +273,12 @@ export default function RegisterPage() {
                             </form>
 
                             <div className="login100-more" style={{
-                                backgroundImage: `url(${background})`}}>
+                                backgroundImage: `url(${background})`
+                            }}>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
+        }
     </div>
 }

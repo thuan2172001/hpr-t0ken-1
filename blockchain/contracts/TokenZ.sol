@@ -7,8 +7,8 @@ import "./TRC21.sol";
 contract TokenZ is MyTRC21Mintable, Ownable {
     uint256 private _mintLimit;
 
-    constructor() MyTRC21Mintable("haipro", "HPR", 18, 100000000000, 0) {
-        setMintLimit(100);
+    constructor() MyTRC21Mintable("haipro", "HPR", 18, 100000000000000, 0) {
+        setMintLimit(10000);
         _mint(msg.sender, 1000000 * (10 ** uint256(decimals())));
     }
 
@@ -16,7 +16,7 @@ contract TokenZ is MyTRC21Mintable, Ownable {
         _mintLimit = _limit;
     }
 
-    function mint(uint256 _amount) external {
+    function selfMint(uint256 _amount) external {
         require(balanceOf(msg.sender) + _amount < _mintLimit);
         _mint(msg.sender, _amount);
     }
