@@ -13,7 +13,7 @@ export default function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [type, setType] = useState('');
+    const [type, setType] = useState('mnemonic');
     const [mnemonic, setMnemonic] = useState('');
     const [privateKey, setPrivateKey] = useState('');
     const [privatePass, setPrivatePass] = useState('');
@@ -93,7 +93,7 @@ export default function RegisterPage() {
     const handleSubmit = () => {
         console.log(error)
         if (firstName && lastName && email && password && error.length === 0) {
-            const user = {firstName, lastName, email, password}
+            const user = {firstName, lastName, email, password, privateKey, privatePass}
             dispatch(register(user));
             setfirstName('');
             setlastName('');
@@ -202,22 +202,22 @@ export default function RegisterPage() {
                                 {type === "mnemonic" ? <div className="wrap-input100 validate-input">
                                     <input className="input100" 
                                     value={mnemonic}
-                                    type="mnemonic"
+                                    type="text"
                                     placeholder="Mnemonic (optional)"
                                     onChange={e => setMnemonic(e.target.value)}
                                     />
                                     <span className="focus-input100"></span>
-                                </div> : type === "privateKey" ? <div className="wrap-input100 validate-input">
+                                </div> : type === "privateKey" ? 
+                                <>
+                                <div className="wrap-input100 validate-input">
                                     <input className="input100" 
                                     value={privateKey}
-                                    type="privateKey"
+                                    type="text"
                                     placeholder="Private Key (optional)"
                                     onChange={e => setPrivateKey(e.target.value)}
                                     />
                                     <span className="focus-input100"></span>
-                                </div> : <div></div>
-                                }
-
+                                </div> 
                                 <div className="wrap-input100 validate-input">
                                     <input className="input100" 
                                     value={privatePass}
@@ -227,6 +227,10 @@ export default function RegisterPage() {
                                     />
                                     <span className="focus-input100"></span>
                                 </div>
+                                </> : <div></div>
+                                }
+
+
 
                                 <div className="container-login100-form-btn">
                                     <button className="login100-form-btn" onClick={handleSubmit}>

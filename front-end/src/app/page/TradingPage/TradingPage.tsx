@@ -20,6 +20,10 @@ export const TradingPage = () => {
             console.log('a')
             transferCoin(data).then(t => {
                 console.log(t);
+                alert('Successfully!')
+            }).catch(e => {
+                console.log(e);
+                alert('Fail!')
             });
     });
 
