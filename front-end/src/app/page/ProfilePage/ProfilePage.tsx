@@ -12,10 +12,9 @@ export default function ProfilePage() {
     const [lastName, setlastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
+    const [privateKeyPassword, setPrivateKeyPassword] = useState('');
     const [wallet, setWallet] = useState('');
     const [privateKey, setPrivateKey] = useState('');
-    const [typeOfPrivateKey, setTypeOfPrivateKey] = useState('password')
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
     const [balance, setBalance] = useState('');
@@ -28,16 +27,26 @@ export default function ProfilePage() {
     }
     const handleShow = () => setShowDialog(true);
     const handleExport = () => {
-        checkAuth({email, password}).then(t => {
+        getPrivateKey({privateKeyPassword: privateKeyPassword}).then(t => {
             console.log(t)
-            if (t.token) {
-                setTypeOfPrivateKey('text')
+            if (t.privateKey) {
+                setPrivateKey(t.privateKey)
                 setError("")
                 setShowDialog(false)
             } else {
-                setError('Password is incorrect')
+                setError('Private Key Password is incorrect')
             }
-        })
+        }).then(() => setLoading(false)).catch(() => setLoading(false));
+        // checkAuth({email, password}).then(t => {
+        //     console.log(t)
+        //     if (t.token) {
+        //         setTypeOfPrivateKey('text')
+        //         setError("")
+        //         setShowDialog(false)
+        //     } else {
+        //         setError('Password is incorrect')
+        //     }
+        // })
     }
 
     useEffect(() => {
@@ -48,11 +57,7 @@ export default function ProfilePage() {
         getWallet().then(t => {
             console.log(t)
             setBalance(`${t.balance} HPR`);
-        }).then(() => setLoading(false)).catch(() => setLoading(false));
-        getPrivateKey({privateKeyPassword: "temp"}).then(t => {
-            console.log(t)
-            setPrivateKey(t.privateKey)
-        }).then(() => setLoading(false)).catch(() => setLoading(false));
+        }).then(() => setLoading(false)).catch(() => setLoading(false))
         setfirstName(user.user.firstName);
         setlastName(user.user.lastName);
         setEmail(user.user.email);
@@ -177,7 +182,7 @@ export default function ProfilePage() {
                                             <Form.Control
                                                 value={privateKey}
                                                 disabled={true}
-                                                type={typeOfPrivateKey} />
+                                                type="text" />
                                                 <Modal show={showDialog} onHide={handleClose} style={{marginTop: "25vh"}}>
                                                     <Modal.Header closeButton>
                                                     <Modal.Title>Export your Private Key</Modal.Title>
@@ -186,8 +191,8 @@ export default function ProfilePage() {
                                                         <p>Enter your password to export Private Key</p>
                                                         <Form.Group controlId="formBasicEmail">
                                                             <Form.Control
-                                                                value={password}
-                                                                onChange={e => setPassword(e.target.value)}
+                                                                value={privateKeyPassword}
+                                                                onChange={e => setPrivateKeyPassword(e.target.value)}
                                                                 type="password" />
                                                         </Form.Group>
                                                         {error && 
