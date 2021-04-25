@@ -1,27 +1,21 @@
 const User = require('../../../../models/user')
-// const { error } = require('../../../../services/logger')
-// const { success, serverError } = require('../../../../utils/response-utils')
-// const { CheckAuth } = require('../../../middleware/auth/auth.mid')
-const bcrypt = require('bcrypt')
 const { generateAccessToken } = require('../user.service')
-const { badRequest } = require('../../../../utils/response-utils')
+const { BadRequest, Success } = require('../../../../utils/response')
+const { ComparePassword } = require('../../../../utils/crypto-utils')
+
 const api = require('express').Router()
 
 api.post('/auth/login', async (req, res) => {
     try {
-         console.log(req.body)
          const {email, password} = req.body
          const user = await User.findOne({email})
-         if (!user) return res.json(badRequest('AUTH.POST.EMAIL_NOT_FOUND'))
-         bcrypt.compare(password, user.hashPassword, (err, isMatched) => {
-            if (err) return res.json(badRequest(err))
-
-            if (!isMatched) return res.json(badRequest('AUTH.POST.PASSWORD_NOT_MATCH'))
-
-            res.json({user, token: generateAccessToken(email)})
-         })
+         if (!user) return BadRequest(req, res, err = 'AUTH.POST.EMAIL_NOT_FOUND')
+         const isMatched = await ComparePassword(password, user.hashPassword)
+         if (!isMatched) return BadRequest(req, res, err = 'AUTH.POST.PASSWORD_WRONG')
+         return Success(req, res, {user, token: generateAccessToken(user.email)})
     } catch (err) {
         console.log(err)
+        return CommonError(req, res, err.message)
     }
 })
 
