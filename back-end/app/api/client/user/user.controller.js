@@ -34,7 +34,7 @@ api.post('/user', async (req, res) => {
         const w = createWallet(data.privateKeyPassword)
         const { address, encryptedPrivateKey } = w
         const user_ = new User({ ...data, wallet: address, encryptedPrivateKey })
-        const info = await user.save()
+        const info = await user_.save()
         return Success(req, res, {user : info})
 
     } catch (err) {

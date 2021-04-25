@@ -5,10 +5,12 @@ const fs = require('fs')
 const { EncryptUsingSymmetricKey } = require('./crypto-utils')
 
 
-const PROVIDER = new ethers.providers.InfuraProvider('rinkeby', {
-    projectId: INFURA_ID,
-    projectSecret: INFURA_SECRET
-})
+// const PROVIDER = new ethers.providers.InfuraProvider('rinkeby', {
+//     projectId: INFURA_ID,
+//     projectSecret: INFURA_SECRET
+// })
+
+const PROVIDER = new ethers.providers.getDefaultProvider("https://testnet.tomochain.com/")
 const ABI = JSON.parse(fs.readFileSync('abi.json')).abi
 const CONTRACT = new ethers.Contract(CONTRACT_ADDRESS, ABI)
 
@@ -73,7 +75,7 @@ const transferMoney = async (privateKey, transferTo, amount = 1) => {
 const mintMoney = async (privateKey, amount = 1) => {
     try {
         const contract = createContract(privateKey)
-        const isSuccess = await contract.mint(ethers.utils.parseUnits(amount))
+        const isSuccess = await contract.selfMint(ethers.utils.parseUnits(amount))
         return isSuccess
     } catch (err) {
         console.log(err)
