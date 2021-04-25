@@ -8,7 +8,7 @@
     "console": "yarn hardhat console --no-compile",
     "deploy": "yarn hardhat run scripts/deploy-token.js",
     "deploy:rinkeby": "yarn hardhat run scripts/deploy-token.js --network rinkeby",
-    "deploy:tomotestnet": "yarn hardhat run scripts/deploy-token.js --network tomotestnet",
+    "deploy:tomotestnet": "yarn hardhat run scripts/deploy-tokenz.js --network tomotestnet",
     "test": "yarn hardhat test"
   },
   "author": "haipro287",
