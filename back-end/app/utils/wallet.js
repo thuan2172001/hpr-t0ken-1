@@ -61,7 +61,6 @@ const transferMoney = async (privateKey, transferTo, amount = 1) => {
     try {
         const contract = createContract(privateKey)
         console.log(ethers.utils.parseUnits(amount))
-        console.log({ transferTo, amount: ethers.utils.parseUnits(amount) })
         const isSuccess = await contract.transfer(transferTo, ethers.utils.parseUnits(amount))
         console.log(isSuccess)
         return isSuccess
