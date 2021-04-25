@@ -16,7 +16,7 @@ export default function RegisterPage() {
     const [type, setType] = useState('mnemonic');
     const [mnemonic, setMnemonic] = useState('');
     const [privateKey, setPrivateKey] = useState('');
-    const [privatePass, setPrivatePass] = useState('');
+    const [privateKeyPassword, setPrivatePass] = useState('');
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
     const user = useSelector((state:RootStateOrAny) => state.user);
@@ -93,7 +93,7 @@ export default function RegisterPage() {
     const handleSubmit = () => {
         console.log(error)
         if (firstName && lastName && email && password && error.length === 0) {
-            const user = {firstName, lastName, email, password, privateKey, privatePass}
+            const user = {firstName, lastName, email, password, privateKey, privateKeyPassword}
             dispatch(register(user));
             setfirstName('');
             setlastName('');
@@ -220,7 +220,7 @@ export default function RegisterPage() {
                                 </div> 
                                 <div className="wrap-input100 validate-input">
                                     <input className="input100" 
-                                    value={privatePass}
+                                    value={privateKeyPassword}
                                     type="password"
                                     placeholder="Private key Password (optional)"
                                     onChange={e => setPrivatePass(e.target.value)}
