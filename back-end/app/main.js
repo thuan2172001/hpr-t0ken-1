@@ -16,8 +16,8 @@ module.exports = () => {
 
     console.log('Bootstrap starting time', new Date());
     // const urlConnection = `mongodb://${MONGODB_USER}:${MONGODB_PASS}@${MONGODB_URL}:${MONGODB_PORT}/${MONGODB_DATABASE}`;
-    const urlConnection = 'mongodb://localhost:27017/test'
-    // const urlConnection = 'mongodb+srv://admin:admin@cluster0.bra3c.mongodb.net/test?retryWrites=true&w=majority'
+    // const urlConnection = 'mongodb://localhost:27017/test'
+    const urlConnection = 'mongodb+srv://user2:Gr33nHat2172001.@cluster0.wa8l7.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-ey2b6p-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&ssl=true'
 
     const dbConnect = () => db
         .connect(urlConnection)
